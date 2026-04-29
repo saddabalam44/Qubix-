@@ -1,0 +1,274 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --primary-color: #00c9b1; /* Teal from screenshot */
+  --primary-hover: #00b39d;
+  --secondary-color: #0d9488;
+  --bg-light: #f0fdfa; /* Very light teal background */
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --glass-bg: rgba(255, 255, 255, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --radius-lg: 24px;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Outfit', sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-light);
+  color: var(--text-main);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Glassmorphism Utilities */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Layout Components */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 280px;
+  background: white;
+  border-right: 1px solid #e2e8f0;
+  padding: 32px 20px;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  height: 100vh;
+  z-index: 100;
+}
+
+
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 14px;
+  transition: all 0.2s;
+  margin: 4px 16px;
+}
+
+.sidebar-link:hover {
+  background: rgba(0, 201, 177, 0.05);
+  color: var(--primary-color);
+}
+
+.sidebar-link.active {
+  background: rgba(0, 201, 177, 0.1);
+  color: var(--primary-color);
+  position: relative;
+}
+
+.sidebar-link.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 4px;
+  background: var(--primary-color);
+  border-radius: 0 4px 4px 0;
+}
+
+/* Typography */
+h1, h2, h3, h4 {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* Form Controls */
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-muted);
+}
+
+.form-control {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(0, 201, 177, 0.1);
+  background: white;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  font-size: 0.95rem;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 201, 177, 0.2);
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 201, 177, 0.3);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid #e2e8f0;
+  color: var(--text-main);
+}
+
+.btn-outline:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+/* Cards */
+.card {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  border: 1px solid #e2e8f0;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Badge */
+.badge {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.badge-success {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.badge-warning {
+  background: #fffbeb;
+  color: #d97706;
+}
+
+/* Table Styles */
+.table-container {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: white;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #f8fafc;
+  padding: 16px 24px;
+  text-align: left;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+td {
+  padding: 16px 24px;
+  border-top: 1px solid #f1f5f9;
+  font-size: 0.95rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(10px, 15px); }
+  100% { transform: translate(0, 0); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 600px;
+  animation: fadeIn 0.3s ease-out;
+}
