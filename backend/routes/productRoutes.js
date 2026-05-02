@@ -4,7 +4,7 @@ const productController = require('../controllers/productController');
 const { protect, admin } = require('../middleware/authMiddleware');
 const upload = require('../middleware/uploadMiddleware');
 
-// Routes
+
 router.get('/', protect, productController.getProducts);
 router.post('/', protect, admin, upload.single('image'), productController.addProduct);
 router.put('/:id', protect, admin, upload.single('image'), productController.updateProduct);

@@ -1,10 +1,10 @@
 import { jsPDF } from 'jspdf';
 
 export const generateSupplierInvoice = (orderData) => {
-    // A4 size for formal invoices
+
     const doc = new jsPDF('p', 'mm', 'a4');
 
-    // Branding / Header
+
     doc.setFontSize(22);
     doc.setTextColor(99, 102, 241); // Primary Color
     doc.text('TAX INVOICE', 14, 20);
@@ -14,7 +14,7 @@ export const generateSupplierInvoice = (orderData) => {
     doc.text('Qubix Smart Billing System', 14, 28);
     doc.text('Admin Purchase Order', 14, 34);
 
-    // Invoice Details
+
     doc.setFontSize(11);
     doc.setTextColor(0, 0, 0);
     
@@ -25,19 +25,19 @@ export const generateSupplierInvoice = (orderData) => {
     }
     doc.text(`Status: PAID`, 140, 36);
 
-    // Supplier Info
+
     doc.setFont('helvetica', 'bold');
     doc.text('From (Supplier):', 14, 50);
     doc.setFont('helvetica', 'normal');
     doc.text(`Name: ${orderData.supplierName || 'N/A'}`, 14, 58);
 
-    // Admin Info
+
     doc.setFont('helvetica', 'bold');
     doc.text('To (Admin):', 140, 50);
     doc.setFont('helvetica', 'normal');
     doc.text(`Qubix Administration`, 140, 58);
 
-    // Table Header
+
     let yPos = 80;
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(11);
@@ -50,7 +50,7 @@ export const generateSupplierInvoice = (orderData) => {
 
     yPos += 12;
 
-    // Table Row (Single product for this flow)
+
     doc.setFont('helvetica', 'normal');
     doc.text(orderData.productName, 16, yPos);
     doc.text(`RS. ${orderData.pricePerUnit.toFixed(2)}`, 100, yPos);
@@ -62,7 +62,7 @@ export const generateSupplierInvoice = (orderData) => {
     doc.line(14, yPos, 196, yPos);
     yPos += 10;
 
-    // Totals
+
     const halfTax = orderData.gstAmount / 2;
 
     doc.text('Subtotal:', 130, yPos);
@@ -82,14 +82,14 @@ export const generateSupplierInvoice = (orderData) => {
     doc.text('Grand Total:', 130, yPos);
     doc.text(`RS. ${orderData.totalAmount.toFixed(2)}`, 196, yPos, { align: 'right' });
 
-    // Footer
+
     yPos += 40;
     doc.setFontSize(10);
     doc.setFont('helvetica', 'italic');
     doc.setTextColor(150, 150, 150);
     doc.text('This is a computer-generated tax invoice.', doc.internal.pageSize.getWidth() / 2, yPos, { align: 'center' });
 
-    // Trigger download
+
     const timestamp = new Date().getTime();
     doc.save(`supplier_invoice_${timestamp}.pdf`);
 };

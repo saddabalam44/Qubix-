@@ -11,7 +11,9 @@ const Shopkeepers = () => {
 
     const fetchUsers = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/auth/users?role=shopkeeper');
+            const res = await axios.get('/api/auth/users?role=shopkeeper&status=active', {
+                headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` }
+            });
             setUsers(Array.isArray(res.data) ? res.data : []);
         } catch (err) {
             console.error(err);
@@ -32,7 +34,9 @@ const Shopkeepers = () => {
         e.preventDefault();
         setError('');
         try {
-            await axios.post('http://localhost:5000/api/auth/add-shopkeeper', formData);
+            await axios.post('/api/auth/add-shopkeeper', formData, {
+                headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` }
+            });
             setShowModal(false);
             setFormData({ username: '', email: '', password: '' });
             fetchUsers();
@@ -44,7 +48,9 @@ const Shopkeepers = () => {
     const handleDelete = async (id, username) => {
         if (window.confirm(`Are you sure you want to remove shopkeeper "${username}"?`)) {
             try {
-                await axios.delete(`http://localhost:5000/api/auth/${id}`);
+                await axios.delete(`/api/auth/${id}`, {
+                    headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` }
+                });
                 fetchUsers();
             } catch (err) {
                 alert(err.response?.data?.message || 'Error deleting shopkeeper');

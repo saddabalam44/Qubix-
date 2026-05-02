@@ -18,9 +18,9 @@ const SupplierDashboard = () => {
         try {
             const token = sessionStorage.getItem('token');
             const [statsRes, productsRes, ordersRes] = await Promise.all([
-                axios.get('http://localhost:5000/api/supplier/stats', { headers: { Authorization: `Bearer ${token}` } }),
-                axios.get('http://localhost:5000/api/supplier/products', { headers: { Authorization: `Bearer ${token}` } }),
-                axios.get('http://localhost:5000/api/supplier/orders', { headers: { Authorization: `Bearer ${token}` } })
+                axios.get('/api/supplier/stats', { headers: { Authorization: `Bearer ${token}` } }),
+                axios.get('/api/supplier/products', { headers: { Authorization: `Bearer ${token}` } }),
+                axios.get('/api/supplier/orders', { headers: { Authorization: `Bearer ${token}` } })
             ]);
             setStats(statsRes.data);
             setProducts(productsRes.data);
@@ -40,7 +40,7 @@ const SupplierDashboard = () => {
 
     const handleUpdateStatus = async (orderId, status) => {
         try {
-            await axios.put(`http://localhost:5000/api/supplier/order/${orderId}/delivery`, { status }, {
+            await axios.put(`/api/supplier/order/${orderId}/delivery`, { status }, {
                 headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` }
             });
             alert(`Order status updated to ${status}`);
@@ -52,7 +52,7 @@ const SupplierDashboard = () => {
 
     const handleApproveDemand = async (orderId) => {
         try {
-            await axios.put(`http://localhost:5000/api/supplier/demand/${orderId}/approve`, {}, {
+            await axios.put(`/api/supplier/demand/${orderId}/approve`, {}, {
                 headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` }
             });
             alert("Demand approved! Requested 30% advance from Admin.");
@@ -76,7 +76,7 @@ const SupplierDashboard = () => {
 
         try {
             const token = sessionStorage.getItem('token');
-            await axios.post('http://localhost:5000/api/products', data, {
+            await axios.post('/api/products', data, {
                 headers: { 
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`

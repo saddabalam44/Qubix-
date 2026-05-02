@@ -2,8 +2,8 @@ const PurchaseOrder = require('../models/PurchaseOrder');
 const Product = require('../models/Product');
 const Notification = require('../models/Notification');
 
-// @desc    Admin initiates stock demand
-// @route   POST /api/supplier/demand
+
+
 const createDemand = async (req, res) => {
     try {
         const { productId, quantity } = req.body;
@@ -45,14 +45,14 @@ const createDemand = async (req, res) => {
     }
 };
 
-// @desc    Supplier approves demand and requests 30% advance
-// @route   PUT /api/supplier/demand/:id/approve
+
+
 const approveDemand = async (req, res) => {
     try {
         const order = await PurchaseOrder.findById(req.params.id);
         if (!order) return res.status(404).json({ message: 'Order not found' });
 
-        // Check if the logged in user is the assigned supplier
+
         if (order.supplierId.toString() !== req.user._id.toString()) {
             return res.status(403).json({ message: 'Not authorized: You are not the assigned supplier for this order' });
         }
@@ -75,8 +75,8 @@ const approveDemand = async (req, res) => {
     }
 };
 
-// @desc    Admin makes a staged payment (30%, 40%, or remaining 30%)
-// @route   POST /api/supplier/purchase/pay-stage
+
+
 const processStagedPayment = async (req, res) => {
     try {
         const { orderId, razorpayPaymentId, isCash } = req.body;
@@ -88,19 +88,19 @@ const processStagedPayment = async (req, res) => {
         let stageName = "";
 
         if (order.status === 'Awaiting Advance') {
-            amountToPay = order.totalAmount * 0.3; // 30%
+            amountToPay = order.totalAmount * 0.3;
             nextStatus = 'Processing';
             stageName = "30% Advance";
         } else if (order.status === 'Delivered') {
-            amountToPay = order.totalAmount * 0.4; // 40%
+            amountToPay = order.totalAmount * 0.4;
             nextStatus = 'Partially Paid';
             stageName = "40% Mid-Payment";
-            // Set due date for final 30% (1 month from now)
+
             const dueDate = new Date();
             dueDate.setMonth(dueDate.getMonth() + 1);
             order.dueDate = dueDate;
         } else if (order.status === 'Partially Paid') {
-            amountToPay = order.balanceAmount; // Remaining 30%
+            amountToPay = order.balanceAmount;
             nextStatus = 'Completed';
             stageName = "Final 30% Payment";
         } else {
@@ -132,22 +132,22 @@ const processStagedPayment = async (req, res) => {
     }
 };
 
-// @desc    Supplier updates delivery status
-// @route   PUT /api/supplier/order/:id/delivery
+
+
 const updateDeliveryStatus = async (req, res) => {
     try {
-        const { status } = req.body; // 'In Transit' or 'Delivered'
+        const { status } = req.body;
         const order = await PurchaseOrder.findById(req.params.id);
         if (!order) return res.status(404).json({ message: 'Order not found' });
 
-        // Check if the logged in user is the assigned supplier
+
         if (order.supplierId.toString() !== req.user._id.toString()) {
             return res.status(403).json({ message: 'Not authorized: You are not the assigned supplier for this order' });
         }
 
         order.status = status;
 
-        // If Delivered, automatically update Admin's stock
+
         if (status === 'Delivered') {
             const product = await Product.findById(order.productId);
             if (product) {

@@ -2,16 +2,16 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-// Generate JWT
+
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET || 'qubix_secret_key_123', {
         expiresIn: '30d',
     });
 };
 
-// @desc    Register new user
-// @route   POST /api/auth/register
-// @access  Public
+
+
+
 const registerUser = async (req, res) => {
     try {
         const { username, email, password, role } = req.body;
@@ -58,7 +58,7 @@ const registerUser = async (req, res) => {
     }
 };
 
-// @desc    Register a supplier (Pending status, no password required yet)
+
 const registerSupplier = async (req, res) => {
     try {
         const { username, email, companyName } = req.body;
@@ -72,7 +72,7 @@ const registerSupplier = async (req, res) => {
             return res.status(400).json({ message: 'User already exists' });
         }
 
-        // Create user with a dummy password since it will be auto-generated on approval
+
         const user = await User.create({
             username,
             email,
@@ -91,9 +91,9 @@ const registerSupplier = async (req, res) => {
     }
 };
 
-// @desc    Authenticate a user
-// @route   POST /api/auth/login
-// @access  Public
+
+
+
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -122,7 +122,7 @@ const loginUser = async (req, res) => {
     }
 };
 
-// @desc    Add a shopkeeper (Admin only)
+
 const addShopkeeper = async (req, res) => {
     try {
         const { username, email, password } = req.body;
@@ -136,22 +136,104 @@ const addShopkeeper = async (req, res) => {
             role: 'shopkeeper'
         });
 
+
+        console.log(`Attempting to send welcome email to ${email}...`);
+        const nodemailer = require('nodemailer');
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
+
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: user.email,
+            subject: 'Welcome to Qubix - Your Shopkeeper Account',
+            text: `Hello ${username},\n\nAn admin has created a shopkeeper account for you.\n\nHere are your login credentials:\nEmail: ${email}\nPassword: ${password}\n\nPlease login at http://localhost:5173/login\n\nRegards,\nQubix Team`
+        };
+
+        try {
+            const info = await transporter.sendMail(mailOptions);
+            console.log('Welcome email sent successfully:', info.response);
+        } catch (emailError) {
+            console.error("Failed to send welcome email:", emailError.message);
+        }
+
         res.status(201).json({
             _id: user.id,
             username: user.username,
             email: user.email,
-            role: user.role
+            role: user.role,
+            message: 'Shopkeeper added successfully and email sent.'
         });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
 
-// @desc    Get all users (supports filtering by role)
+
+const addSupplier = async (req, res) => {
+    try {
+        const { username, email, password, companyName } = req.body;
+        const userExists = await User.findOne({ $or: [{ email }, { username }] });
+        if (userExists) return res.status(400).json({ message: 'User already exists' });
+
+        const user = await User.create({
+            username,
+            email,
+            password,
+            role: 'supplier',
+            companyName: companyName || '',
+            status: 'active'
+        });
+
+
+        console.log(`Attempting to send welcome email to supplier ${email}...`);
+        const nodemailer = require('nodemailer');
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
+
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: user.email,
+            subject: 'Welcome to Qubix - Your Supplier Account',
+            text: `Hello ${username},\n\nAn admin has created a supplier account for you.\n\nHere are your login credentials:\nEmail: ${email}\nPassword: ${password}\n\nPlease login at http://localhost:5173/login\n\nRegards,\nQubix Team`
+        };
+
+        try {
+            const info = await transporter.sendMail(mailOptions);
+            console.log('Welcome email sent successfully to supplier:', info.response);
+        } catch (emailError) {
+            console.error("Failed to send welcome email to supplier:", emailError.message);
+        }
+
+        res.status(201).json({
+            _id: user.id,
+            username: user.username,
+            email: user.email,
+            role: user.role,
+            message: 'Supplier added successfully and email sent.'
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
 const getUsers = async (req, res) => {
     try {
-        const { role } = req.query;
-        const query = role ? { role } : {};
+        const { role, status } = req.query;
+        let query = {};
+        if (role) query.role = role;
+        if (status) query.status = status;
+        
         const users = await User.find(query).select('-password');
         res.json(users);
     } catch (error) {
@@ -159,7 +241,7 @@ const getUsers = async (req, res) => {
     }
 };
 
-// @desc    Delete shopkeeper
+
 const deleteShopkeeper = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
@@ -174,7 +256,7 @@ const deleteShopkeeper = async (req, res) => {
     }
 };
 
-// @desc    Get pending suppliers for approval
+
 const getPendingSuppliers = async (req, res) => {
     try {
         const suppliers = await User.find({ role: 'supplier', status: 'pending' }).select('-password');
@@ -184,7 +266,7 @@ const getPendingSuppliers = async (req, res) => {
     }
 };
 
-// @desc    Approve supplier and generate password
+
 const approveSupplier = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
@@ -196,7 +278,7 @@ const approveSupplier = async (req, res) => {
         user.password = generatedPassword; 
         await user.save();
 
-        // Send email with credentials using nodemailer
+
         const nodemailer = require('nodemailer');
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -218,7 +300,7 @@ const approveSupplier = async (req, res) => {
             console.log(`Email sent successfully to ${user.email}`);
         } catch (emailError) {
             console.error("Failed to send email:", emailError);
-            // We still want to return success for the approval even if email fails
+
         }
 
         res.json({ 
@@ -236,6 +318,7 @@ module.exports = {
     loginUser,
     registerSupplier,
     addShopkeeper,
+    addSupplier,
     getUsers,
     deleteShopkeeper,
     getPendingSuppliers,

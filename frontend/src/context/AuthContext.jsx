@@ -1,21 +1,18 @@
-/* eslint-disable */
 import { createContext, useState, useEffect, useCallback, useMemo } from 'react';
 import axios from 'axios';
 
 export const AuthContext = createContext();
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || '';
+axios.defaults.baseURL = API_BASE_URL;
+
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Set the default base URL for Axios
-    const API_URL = 'http://localhost:5000/api/auth';
-
-    // Moved useEffect below so that 'logout' is initialized before it's used in the dependency array.
-
     const login = useCallback(async (email, password) => {
         try {
-            const res = await axios.post(`${API_URL}/login`, { email, password });
+            const res = await axios.post('/api/auth/login', { email, password });
             const { token, ...userData } = res.data;
 
             sessionStorage.setItem('token', token);
@@ -27,11 +24,11 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
             return { success: false, error: error.response?.data?.message || 'Login failed' };
         }
-    }, [API_URL]);
+    }, []);
 
     const register = useCallback(async (username, email, password, role) => {
         try {
-            const res = await axios.post(`${API_URL}/register`, { username, email, password, role });
+            const res = await axios.post('/api/auth/register', { username, email, password, role });
             const { token, ...userData } = res.data;
 
             sessionStorage.setItem('token', token);
@@ -43,7 +40,7 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
             return { success: false, error: error.response?.data?.message || 'Registration failed' };
         }
-    }, [API_URL]);
+    }, []);
 
     const logout = useCallback(() => {
         sessionStorage.removeItem('token');
@@ -53,7 +50,6 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        // Check if token exists in session storage
         const token = sessionStorage.getItem('token');
         if (token) {
             const userData = JSON.parse(sessionStorage.getItem('user'));
@@ -64,7 +60,6 @@ export const AuthProvider = ({ children }) => {
         }
         setLoading(false);
 
-        // Add a response interceptor to handle 401 globally
         const interceptor = axios.interceptors.response.use(
             (response) => response,
             (error) => {
@@ -96,3 +91,4 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     );
 };
+

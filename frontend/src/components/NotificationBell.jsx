@@ -16,7 +16,7 @@ const NotificationBell = () => {
     const fetchNotifications = async () => {
         try {
             setLoading(true);
-            const res = await axios.get('http://localhost:5000/api/supplier/notifications', {
+            const res = await axios.get('/api/supplier/notifications', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setNotifications(res.data);
@@ -29,7 +29,7 @@ const NotificationBell = () => {
 
     useEffect(() => {
         fetchNotifications();
-        // Poll every 30 seconds
+
         const interval = setInterval(fetchNotifications, 30000);
         return () => clearInterval(interval);
     }, []);
@@ -46,7 +46,7 @@ const NotificationBell = () => {
 
     const markAsRead = async (id) => {
         try {
-            await axios.put(`http://localhost:5000/api/supplier/notifications/${id}/read`, {}, {
+            await axios.put(`/api/supplier/notifications/${id}/read`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setNotifications(notifications.map(n => n._id === id ? { ...n, isRead: true } : n));
@@ -57,7 +57,7 @@ const NotificationBell = () => {
 
     const clearAll = async () => {
         try {
-            await axios.delete('http://localhost:5000/api/supplier/notifications', {
+            await axios.delete('/api/supplier/notifications', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setNotifications([]);

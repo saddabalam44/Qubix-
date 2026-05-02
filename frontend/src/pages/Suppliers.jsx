@@ -7,9 +7,13 @@ const Suppliers = () => {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
 
+    const [showModal, setShowModal] = useState(false);
+    const [formData, setFormData] = useState({ username: '', email: '', password: '', companyName: '' });
+    const [error, setError] = useState('');
+
     const fetchSuppliers = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/auth/users?role=supplier', {
+            const response = await axios.get('/api/auth/users?role=supplier&status=active', {
                 headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` }
             });
             setUsers(Array.isArray(response.data) ? response.data : []);
@@ -24,10 +28,29 @@ const Suppliers = () => {
         fetchSuppliers();
     }, []);
 
+    const handleInputChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+        try {
+            await axios.post('/api/auth/add-supplier', formData, {
+                headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` }
+            });
+            setShowModal(false);
+            setFormData({ username: '', email: '', password: '', companyName: '' });
+            fetchSuppliers();
+        } catch (err) {
+            setError(err.response?.data?.message || 'Error adding supplier');
+        }
+    };
+
     const handleDelete = async (id, username) => {
         if (window.confirm(`Are you sure you want to remove supplier "${username}"?`)) {
             try {
-                await axios.delete(`http://localhost:5000/api/auth/${id}`, {
+                await axios.delete(`/api/auth/${id}`, {
                     headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` }
                 });
                 fetchSuppliers();
@@ -67,6 +90,13 @@ const Suppliers = () => {
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
+                    <button className="btn btn-primary" onClick={() => {
+                        setFormData({ username: '', email: '', password: '', companyName: '' });
+                        setError('');
+                        setShowModal(true);
+                    }}>
+                        <UserPlus size={20} /> Add Merchant
+                    </button>
                 </div>
             </div>
 
@@ -148,6 +178,41 @@ const Suppliers = () => {
                     </table>
                 </div>
             </div>
+
+            {showModal && (
+                <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(15, 23, 42, 0.5)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
+                    <div className="card" style={{ width: '100%', maxWidth: '480px', padding: '40px' }}>
+                        <h2 style={{ marginBottom: '32px' }}>Add New Merchant Partner</h2>
+                        {error && (
+                            <div style={{ background: '#fef2f2', border: '1px solid #fee2e2', padding: '16px', borderRadius: '12px', marginBottom: '24px', color: '#ef4444', fontSize: '0.9rem' }}>
+                                {error}
+                            </div>
+                        )}
+                        <form onSubmit={handleSubmit}>
+                            <div style={{ marginBottom: '20px' }}>
+                                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', fontSize: '0.9rem', color: '#64748b' }}>Merchant Username</label>
+                                <input className="form-control" name="username" value={formData.username} onChange={handleInputChange} required autoComplete="off" />
+                            </div>
+                            <div style={{ marginBottom: '20px' }}>
+                                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', fontSize: '0.9rem', color: '#64748b' }}>Enterprise Name</label>
+                                <input className="form-control" name="companyName" value={formData.companyName} onChange={handleInputChange} required autoComplete="off" />
+                            </div>
+                            <div style={{ marginBottom: '20px' }}>
+                                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', fontSize: '0.9rem', color: '#64748b' }}>Business Email</label>
+                                <input type="email" className="form-control" name="email" value={formData.email} onChange={handleInputChange} required autoComplete="off" />
+                            </div>
+                            <div style={{ marginBottom: '32px' }}>
+                                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', fontSize: '0.9rem', color: '#64748b' }}>Access Password</label>
+                                <input type="password" className="form-control" name="password" value={formData.password} onChange={handleInputChange} required autoComplete="new-password" />
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+                                <button type="button" className="btn btn-outline" onClick={() => setShowModal(false)}>Cancel</button>
+                                <button type="submit" className="btn btn-primary" style={{ paddingLeft: '32px', paddingRight: '32px' }}>Register Partner</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

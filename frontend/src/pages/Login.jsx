@@ -31,7 +31,7 @@ const Login = ({ role: propRole }) => {
         }
     };
 
-    // Redirect if already logged in
+
     useEffect(() => {
         if (user) {
             redirectUser(user);
@@ -47,7 +47,7 @@ const Login = ({ role: propRole }) => {
         if (result.success) {
             const userData = JSON.parse(sessionStorage.getItem('user'));
             
-            // If user came from a specific role card, validate their role
+
             if (selectedRole && userData.role !== selectedRole) {
                 logout();
                 setError(`This account does not have ${selectedRole} privileges. Please use the correct credentials.`);

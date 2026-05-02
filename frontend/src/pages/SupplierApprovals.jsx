@@ -8,7 +8,7 @@ const SupplierApprovals = () => {
 
     const fetchPending = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/auth/pending-suppliers', {
+            const res = await axios.get('/api/auth/pending-suppliers', {
                 headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` }
             });
             setUsers(Array.isArray(res.data) ? res.data : []);
@@ -26,12 +26,12 @@ const SupplierApprovals = () => {
     const handleStatusUpdate = async (id, status) => {
         try {
             if (status === 'active') {
-                const res = await axios.put(`http://localhost:5000/api/auth/approve-supplier/${id}`, {}, {
+                const res = await axios.put(`/api/auth/approve-supplier/${id}`, {}, {
                     headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` }
                 });
                 alert(`Supplier approved! Auto-generated Password: ${res.data.sharedPassword}\nPlease share this with: ${res.data.email}`);
             } else {
-                await axios.put(`http://localhost:5000/api/auth/supplier-status/${id}`, { status }, {
+                await axios.put(`/api/auth/supplier-status/${id}`, { status }, {
                     headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` }
                 });
             }

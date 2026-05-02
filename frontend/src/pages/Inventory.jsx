@@ -13,7 +13,7 @@ const Inventory = () => {
     const [suppliers, setSuppliers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
 
-    // Order Stock States
+
     const [orderModal, setOrderModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [orderQuantity, setOrderQuantity] = useState(1);
@@ -26,11 +26,11 @@ const Inventory = () => {
     const fetchProducts = async () => {
         try {
             const token = sessionStorage.getItem('token');
-            const res = await axios.get('http://localhost:5000/api/products');
+            const res = await axios.get('/api/products');
             setProducts(Array.isArray(res.data) ? res.data : []);
-            
+
             if (isAdmin) {
-                const ordersRes = await axios.get('http://localhost:5000/api/supplier/admin/orders', {
+                const ordersRes = await axios.get('/api/supplier/admin/orders', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setPurchaseOrders(Array.isArray(ordersRes.data) ? ordersRes.data : []);
@@ -44,7 +44,7 @@ const Inventory = () => {
 
     const fetchSuppliers = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/auth/users?role=supplier', {
+            const res = await axios.get('/api/auth/users?role=supplier', {
                 headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` }
             });
             setSuppliers(Array.isArray(res.data) ? res.data : []);
@@ -82,9 +82,9 @@ const Inventory = () => {
 
         try {
             if (editingId) {
-                await axios.put(`http://localhost:5000/api/products/${editingId}`, data);
+                await axios.put(`/api/products/${editingId}`, data);
             } else {
-                await axios.post('http://localhost:5000/api/products', data);
+                await axios.post('/api/products', data);
             }
             setShowModal(false);
             setFormData({ name: '', price: '', stock: '', lowStockThreshold: '', supplierId: '' });
@@ -106,7 +106,7 @@ const Inventory = () => {
     const handleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this product?')) {
             try {
-                await axios.delete(`http://localhost:5000/api/products/${id}`);
+                await axios.delete(`/api/products/${id}`);
                 fetchProducts();
             } catch (err) {
                 alert('Error deleting product: ' + (err.response?.data?.message || err.message));
@@ -147,7 +147,7 @@ const Inventory = () => {
             setIsProcessingPayment(true);
             try {
                 const token = sessionStorage.getItem('token');
-                await axios.post('http://localhost:5000/api/supplier/purchase/pay-stage', {
+                await axios.post('/api/supplier/purchase/pay-stage', {
                     orderId: order._id,
                     isCash: true
                 }, { headers: { Authorization: `Bearer ${token}` } });
@@ -164,7 +164,7 @@ const Inventory = () => {
                 const token = sessionStorage.getItem('token');
                 const headers = { Authorization: `Bearer ${token}` };
 
-                const orderRes = await axios.post('http://localhost:5000/api/payment/order', { amount: stageAmount }, { headers });
+                const orderRes = await axios.post('/api/payment/order', { amount: stageAmount }, { headers });
                 const { id: rzp_order_id, currency, amount } = orderRes.data;
 
                 const options = {
@@ -176,7 +176,7 @@ const Inventory = () => {
                     order_id: rzp_order_id,
                     handler: async (response) => {
                         try {
-                            await axios.post('http://localhost:5000/api/supplier/purchase/pay-stage', {
+                            await axios.post('/api/supplier/purchase/pay-stage', {
                                 orderId: order._id,
                                 razorpayPaymentId: response.razorpay_payment_id
                             }, { headers });
@@ -207,7 +207,7 @@ const Inventory = () => {
         if (!window.confirm("Danger: This will delete ALL active replenishment requests. Proceed?")) return;
         try {
             const token = sessionStorage.getItem('token');
-            await axios.delete('http://localhost:5000/api/supplier/admin/orders', {
+            await axios.delete('/api/supplier/admin/orders', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             alert("Replenishment Pipeline cleared.");
@@ -225,7 +225,7 @@ const Inventory = () => {
             const token = sessionStorage.getItem('token');
             const headers = { Authorization: `Bearer ${token}` };
 
-            await axios.post('http://localhost:5000/api/supplier/demand', {
+            await axios.post('/api/supplier/demand', {
                 productId: selectedProduct._id,
                 quantity: orderQuantity
             }, { headers });
@@ -246,7 +246,6 @@ const Inventory = () => {
 
     return (
         <div style={{ animation: 'fadeIn 0.5s ease-out' }}>
-            {/* Header Section */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '40px' }}>
                 <div>
                     <h1 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '8px', letterSpacing: '-0.025em' }}>
@@ -266,14 +265,13 @@ const Inventory = () => {
                 </button>
             </div>
 
-            {/* Management Table Card */}
             <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
                 <div style={{ padding: '24px 32px', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fff' }}>
                     <div style={{ position: 'relative', width: '320px' }}>
                         <Search style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} size={18} />
-                        <input 
-                            type="text" 
-                            placeholder="Find specific SKU..." 
+                        <input
+                            type="text"
+                            placeholder="Find specific SKU..."
                             style={{ width: '100%', padding: '12px 14px 12px 46px', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', fontSize: '0.95rem' }}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
@@ -301,13 +299,13 @@ const Inventory = () => {
                                 <tr key={p._id} style={{ borderBottom: '1px solid #f1f5f9' }}>
                                     <td style={{ paddingLeft: '32px', paddingBlock: '20px' }}>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                                            <div style={{ 
-                                                width: '56px', 
-                                                height: '56px', 
-                                                borderRadius: '12px', 
-                                                background: '#f8fafc', 
-                                                display: 'flex', 
-                                                alignItems: 'center', 
+                                            <div style={{
+                                                width: '56px',
+                                                height: '56px',
+                                                borderRadius: '12px',
+                                                background: '#f8fafc',
+                                                display: 'flex',
+                                                alignItems: 'center',
                                                 justifyContent: 'center',
                                                 border: '1px solid #f1f5f9',
                                                 overflow: 'hidden'
@@ -356,7 +354,6 @@ const Inventory = () => {
                 </div>
             </div>
 
-            {/* Approved Demands / Staged Payments Section */}
             {isAdmin && purchaseOrders.some(o => o.status !== 'Completed' && o.status !== 'Cancelled') && (
                 <div style={{ marginTop: '40px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
@@ -367,18 +364,18 @@ const Inventory = () => {
                     </div>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '20px' }}>
                         {purchaseOrders.filter(o => o.status !== 'Completed' && o.status !== 'Cancelled').map(order => (
-                            <div key={order._id} style={{ 
-                                background: 'white', 
-                                padding: '24px', 
-                                borderRadius: '20px', 
+                            <div key={order._id} style={{
+                                background: 'white',
+                                padding: '24px',
+                                borderRadius: '20px',
                                 border: '1px solid #e2e8f0',
                                 boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)'
                             }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
-                                    <span style={{ 
-                                        padding: '4px 10px', 
-                                        borderRadius: '8px', 
-                                        fontSize: '0.7rem', 
+                                    <span style={{
+                                        padding: '4px 10px',
+                                        borderRadius: '8px',
+                                        fontSize: '0.7rem',
                                         fontWeight: '800',
                                         background: ['Processing', 'In Transit', 'Delivered'].includes(order.status) ? '#ecfdf5' : '#fffbeb',
                                         color: ['Processing', 'In Transit', 'Delivered'].includes(order.status) ? '#059669' : '#d97706'
@@ -389,7 +386,7 @@ const Inventory = () => {
                                 </div>
                                 <h3 style={{ margin: '0 0 4px 0', fontSize: '1.1rem', fontWeight: '800' }}>{order.productName}</h3>
                                 <p style={{ margin: '0 0 16px 0', fontSize: '0.85rem', color: '#64748b' }}>Merchant: {order.supplierId?.companyName || order.supplierId?.username}</p>
-                                
+
                                 <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '16px', marginBottom: '20px' }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                                         <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Total Settlement:</span>
@@ -412,18 +409,18 @@ const Inventory = () => {
 
                                 {(['Awaiting Advance', 'Delivered', 'Partially Paid'].includes(order.status)) ? (
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                                        <button 
-                                            className="btn btn-primary" 
+                                        <button
+                                            className="btn btn-primary"
                                             onClick={() => handlePayStage(order)}
                                             disabled={isProcessingPayment}
                                             style={{ width: '100%', borderRadius: '12px', background: '#6366f1', padding: '12px', fontWeight: '800' }}
                                         >
-                                            <CreditCard size={18} /> 
-                                            {order.status === 'Awaiting Advance' ? ' Pay 30% Advance' : 
-                                             order.status === 'Delivered' ? ' Pay 40% Delivery' : ' Pay Final 30%'}
+                                            <CreditCard size={18} />
+                                            {order.status === 'Awaiting Advance' ? ' Pay 30% Advance' :
+                                                order.status === 'Delivered' ? ' Pay 40% Delivery' : ' Pay Final 30%'}
                                         </button>
-                                        <button 
-                                            className="btn btn-outline" 
+                                        <button
+                                            className="btn btn-outline"
                                             onClick={() => handlePayStage(order, true)}
                                             disabled={isProcessingPayment}
                                             style={{ width: '100%', borderRadius: '12px', padding: '12px', fontWeight: '800', borderColor: '#cbd5e1' }}
@@ -433,9 +430,9 @@ const Inventory = () => {
                                     </div>
                                 ) : (
                                     <div style={{ textAlign: 'center', padding: '12px', color: '#64748b', fontSize: '0.85rem', fontWeight: '600', border: '1px dashed #cbd5e1', borderRadius: '12px' }}>
-                                        {order.status === 'Demand' ? 'Awaiting Supplier Approval...' : 
-                                         order.status === 'Processing' ? 'Supplier is preparing stock...' :
-                                         order.status === 'In Transit' ? 'Stock is out for delivery...' : 'Fulfillment Complete'}
+                                        {order.status === 'Demand' ? 'Awaiting Supplier Approval...' :
+                                            order.status === 'Processing' ? 'Supplier is preparing stock...' :
+                                                order.status === 'In Transit' ? 'Stock is out for delivery...' : 'Fulfillment Complete'}
                                     </div>
                                 )}
                             </div>
@@ -445,7 +442,6 @@ const Inventory = () => {
             )}
 
 
-            {/* Modals with Professional Form Styles */}
             {showModal && (
                 <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(15, 23, 42, 0.5)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
                     <div className="card" style={{ width: '100%', maxWidth: '520px', padding: '40px' }}>
@@ -497,7 +493,7 @@ const Inventory = () => {
                 <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(15, 23, 42, 0.5)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
                     <div className="card" style={{ width: '100%', maxWidth: '440px', padding: '40px' }}>
                         <h2 style={{ marginBottom: '32px', fontSize: '1.5rem', fontWeight: '800' }}>Replenish Asset</h2>
-                        
+
                         <div style={{ marginBottom: '24px', padding: '20px', background: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
                             <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
                                 <div style={{ width: '48px', height: '48px', background: '#fff', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #e2e8f0' }}>
@@ -512,12 +508,12 @@ const Inventory = () => {
 
                         <div style={{ marginBottom: '24px' }}>
                             <label style={{ display: 'block', marginBottom: '8px', fontWeight: '700', fontSize: '0.875rem', color: '#475569' }}>Replenishment Quantity</label>
-                            <input 
-                                type="number" 
-                                className="form-control" 
-                                value={orderQuantity} 
-                                onChange={(e) => setOrderQuantity(Math.max(1, parseInt(e.target.value) || 1))} 
-                                min="1" 
+                            <input
+                                type="number"
+                                className="form-control"
+                                value={orderQuantity}
+                                onChange={(e) => setOrderQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                                min="1"
                                 disabled={isProcessingPayment}
                                 style={{ borderRadius: '10px', padding: '14px' }}
                             />
@@ -548,16 +544,16 @@ const Inventory = () => {
                         })()}
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                            <button 
-                                className="btn btn-primary" 
+                            <button
+                                className="btn btn-primary"
                                 onClick={sendDemandToSupplier}
                                 disabled={isProcessingPayment}
                                 style={{ padding: '16px', borderRadius: '12px', background: '#0f172a', fontWeight: '800' }}
                             >
                                 {isProcessingPayment ? 'Sending Demand...' : 'Send Demand Request'}
                             </button>
-                            <button 
-                                className="btn btn-outline" 
+                            <button
+                                className="btn btn-outline"
                                 onClick={() => setOrderModal(false)}
                                 disabled={isProcessingPayment}
                                 style={{ borderRadius: '12px', padding: '14px' }}

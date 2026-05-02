@@ -3,7 +3,7 @@ import Layout from './components/Layout';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
-// Import pages
+
 import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
 import Inventory from './pages/Inventory';

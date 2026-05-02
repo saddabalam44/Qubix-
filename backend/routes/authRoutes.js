@@ -6,6 +6,7 @@ const {
     loginUser, 
     registerSupplier,
     addShopkeeper, 
+    addSupplier,
     getUsers, 
     deleteShopkeeper, 
     getPendingSuppliers, 
@@ -15,12 +16,13 @@ const {
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 
-// Admin Routes
+
 router.post('/add-shopkeeper', protect, admin, addShopkeeper);
+router.post('/add-supplier', protect, admin, addSupplier);
 router.get('/users', protect, admin, getUsers);
 router.delete('/:id', protect, admin, deleteShopkeeper);
 
-// Supplier Approval Workflow
+
 router.post('/register-supplier', registerSupplier);
 router.get('/pending-suppliers', protect, admin, getPendingSuppliers);
 router.put('/approve-supplier/:id', protect, admin, approveSupplier);

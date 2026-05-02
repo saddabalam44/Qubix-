@@ -12,7 +12,7 @@ const SalesHistory = () => {
 
     const fetchSales = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/sales');
+            const res = await axios.get('/api/sales');
             setSales(Array.isArray(res.data) ? res.data : []);
         } catch (err) {
             console.error("Error fetching sales history:", err);
@@ -30,7 +30,7 @@ const SalesHistory = () => {
             return;
         }
         try {
-            await axios.delete(`http://localhost:5000/api/sales/${id}`);
+            await axios.delete(`/api/sales/${id}`);
             setSales(sales.filter(s => s._id !== id));
         } catch (err) {
             alert(err.response?.data?.message || "Failed to delete sale record");
@@ -42,7 +42,7 @@ const SalesHistory = () => {
             return;
         }
         try {
-            await axios.delete('http://localhost:5000/api/sales');
+            await axios.delete('/api/sales');
             setSales([]);
         } catch (err) {
             alert(err.response?.data?.message || "Failed to clear sales history");

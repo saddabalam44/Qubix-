@@ -1,6 +1,6 @@
 const Sale = require('../models/Sale');
 
-// Get all sales history
+
 exports.getSales = async (req, res) => {
     try {
         if (!req.user) {
@@ -8,7 +8,7 @@ exports.getSales = async (req, res) => {
         }
 
         let query = {};
-        // If not admin, only show their own sales
+
         if (req.user.role !== 'admin') {
             query.user = req.user._id;
         }
@@ -20,7 +20,7 @@ exports.getSales = async (req, res) => {
     }
 };
 
-// Delete all sales history (Admin only)
+
 exports.deleteSales = async (req, res) => {
     try {
         if (req.user.role !== 'admin') {
@@ -41,7 +41,7 @@ exports.deleteSales = async (req, res) => {
     }
 };
 
-// Delete a specific sale record
+
 exports.deleteSaleById = async (req, res) => {
     try {
         const sale = await Sale.findById(req.params.id);
@@ -50,7 +50,7 @@ exports.deleteSaleById = async (req, res) => {
             return res.status(404).json({ message: 'Sale record not found' });
         }
 
-        // Only admin or the user who created it can delete
+
         if (req.user.role !== 'admin' && sale.user.toString() !== req.user._id.toString()) {
             return res.status(403).json({ message: 'Not authorized to delete this record' });
         }

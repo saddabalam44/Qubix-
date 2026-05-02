@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ShoppingCart, Plus, Minus, Trash2, QrCode, User } from 'lucide-react';
+import { ShoppingCart, Plus, Minus, Trash2, QrCode, User, Package } from 'lucide-react';
 import { generatePDFReceipt } from '../utils/pdfGenerator';
 
 const Billing = () => {
@@ -18,9 +18,9 @@ const Billing = () => {
 
     const fetchProducts = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/products');
+            const res = await axios.get('/api/products');
             const data = Array.isArray(res.data) ? res.data : [];
-            setProducts(data.filter(p => p.stock > 0)); // Only show in-stock items
+            setProducts(data.filter(p => p.stock > 0));
         } catch (err) {
             console.error(err);
         } finally {
@@ -71,7 +71,7 @@ const Billing = () => {
     };
 
     const subTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const taxAmount = subTotal * 0.18; // 18% GST
+    const taxAmount = subTotal * 0.18;
     const grandTotal = subTotal + taxAmount;
 
     const handleGenerateBill = () => {
@@ -86,14 +86,14 @@ const Billing = () => {
             const token = sessionStorage.getItem('token');
             const headers = { Authorization: `Bearer ${token}` };
 
-            // 1. Create Order on Backend
-            const orderRes = await axios.post('http://localhost:5000/api/payment/order', {
+
+            const orderRes = await axios.post('/api/payment/order', {
                 amount: grandTotal
             }, { headers });
 
             const { id: order_id, currency, amount } = orderRes.data;
 
-            // 2. Open Razorpay Checkout
+
             const options = {
                 key: "rzp_test_SZ3nPRfCb0Nmy6",
                 amount: amount,
@@ -103,16 +103,16 @@ const Billing = () => {
                 order_id: order_id,
                 handler: async (response) => {
                     try {
-                        // 3. Verify Payment on Backend
-                        const verifyRes = await axios.post('http://localhost:5000/api/payment/verify', {
+
+                        const verifyRes = await axios.post('/api/payment/verify', {
                             razorpay_order_id: response.razorpay_order_id,
                             razorpay_payment_id: response.razorpay_payment_id,
                             razorpay_signature: response.razorpay_signature,
                         }, { headers });
 
                         if (verifyRes.data.success) {
-                            // 4. Finalize Sale in Database & Update Inventory
-                            await axios.post('http://localhost:5000/api/billing/checkout', {
+
+                            await axios.post('/api/billing/checkout', {
                                 items: cart,
                                 subTotal: subTotal,
                                 taxAmount: taxAmount,
@@ -120,7 +120,7 @@ const Billing = () => {
                                 customerName: customerName.trim() || 'Walk-in Customer'
                             }, { headers });
 
-                            // 5. Success Actions
+
                             generatePDFReceipt(cart, grandTotal, customerName.trim(), subTotal, taxAmount);
                             setPaymentSuccess(true);
                             setTimeout(() => {
@@ -166,8 +166,8 @@ const Billing = () => {
             const token = sessionStorage.getItem('token');
             const headers = { Authorization: `Bearer ${token}` };
 
-            // Finalize Sale in Database & Update Inventory
-            await axios.post('http://localhost:5000/api/billing/checkout', {
+
+            await axios.post('/api/billing/checkout', {
                 items: cart,
                 subTotal: subTotal,
                 taxAmount: taxAmount,
@@ -175,7 +175,7 @@ const Billing = () => {
                 customerName: customerName.trim() || 'Walk-in Customer'
             }, { headers });
 
-            // Success Actions
+
             generatePDFReceipt(cart, grandTotal, customerName.trim(), subTotal, taxAmount);
             setPaymentSuccess(true);
             setTimeout(() => {
@@ -197,7 +197,6 @@ const Billing = () => {
 
     return (
         <div style={{ display: 'flex', gap: '32px', height: 'calc(100vh - 64px)' }}>
-            {/* Product Selection Area */}
             <div style={{ flex: '2', display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
                     <h2 style={{ fontSize: '1.75rem', fontWeight: '800', margin: 0 }}>Product <span style={{ color: 'var(--primary-color)' }}>Catalog</span></h2>
@@ -223,7 +222,7 @@ const Billing = () => {
                             transition: 'transform 0.2s, box-shadow 0.2s',
                             cursor: 'default',
                             height: '100%',
-                            minHeight: '380px' // Ensure a minimum height for the card
+                            minHeight: '380px'
                         }}>
                             <div style={{ 
                                 width: '100%', 
@@ -297,7 +296,6 @@ const Billing = () => {
             </div>
 
 
-            {/* Cart/Bill Area */}
             <div className="glass-panel" style={{ flex: '1.2', display: 'flex', flexDirection: 'column', height: '100%' }}>
                 <div style={{ padding: '24px', borderBottom: '1px solid var(--border-color)' }}>
                     <h2 style={{ margin: 0 }}>Current Bill</h2>
@@ -385,7 +383,6 @@ const Billing = () => {
                 </div>
             </div>
 
-            {/* QR Payment Modal */}
             {showQR && (
                 <div className="modal-overlay">
                     <div className="glass-panel modal-content" style={{ padding: '40px', textAlign: 'center' }}>

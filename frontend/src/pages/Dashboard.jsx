@@ -17,14 +17,14 @@ const Dashboard = () => {
             try {
                 const token = sessionStorage.getItem('token');
                 const [productsRes, salesRes] = await Promise.all([
-                    axios.get('http://localhost:5000/api/products'),
-                    axios.get('http://localhost:5000/api/sales')
+                    axios.get('/api/products'),
+                    axios.get('/api/sales')
                 ]);
                 setProducts(Array.isArray(productsRes.data) ? productsRes.data : []);
                 setSales(Array.isArray(salesRes.data) ? salesRes.data : []);
                 
                 if (user?.role === 'admin') {
-                    const purchasesRes = await axios.get('http://localhost:5000/api/supplier/admin/orders', {
+                    const purchasesRes = await axios.get('/api/supplier/admin/orders', {
                         headers: { Authorization: `Bearer ${token}` }
                     });
                     setPurchases(Array.isArray(purchasesRes.data) ? purchasesRes.data : []);
@@ -42,13 +42,13 @@ const Dashboard = () => {
     const totalProducts = products.length;
     const today = new Date().toDateString();
     
-    // Role-based sales filtering
+
     const relevantSales = sales; // Backend already filters this for non-admins
     const salesToday = relevantSales.filter(s => new Date(s.date).toDateString() === today);
     const revenueToday = salesToday.reduce((sum, sale) => sum + sale.totalPrice, 0);
     const totalRevenue = relevantSales.reduce((sum, sale) => sum + sale.totalPrice, 0);
     
-    // Additional Shopkeeper Metrics
+
     const itemsSoldToday = salesToday.reduce((sum, sale) => 
         sum + sale.items.reduce((itemSum, item) => itemSum + item.quantity, 0), 0
     );
@@ -57,7 +57,7 @@ const Dashboard = () => {
     const totalProcurement = purchases.reduce((sum, purchase) => sum + purchase.totalAmount, 0);
     const lowStockProducts = products.filter(p => p.stock <= (p.lowStockThreshold || 5));
 
-    // Calculate Top Moving Items
+
     const itemSales = {};
     relevantSales.forEach(sale => {
         sale.items.forEach(item => {

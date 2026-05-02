@@ -7,7 +7,7 @@ const LandingPage = () => {
     const { user, logout } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    // Redirect if already logged in
+
     React.useEffect(() => {
         if (user) {
             navigate(getDashboardPath(user.role), { replace: true });

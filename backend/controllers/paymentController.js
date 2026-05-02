@@ -1,15 +1,15 @@
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
 
-// Initialize Razorpay
+
 const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-// @desc    Create Razorpay Order
-// @route   POST /api/payment/order
-// @access  Private
+
+
+
 const createOrder = async (req, res) => {
     try {
         const { amount } = req.body;
@@ -33,9 +33,9 @@ const createOrder = async (req, res) => {
     }
 };
 
-// @desc    Verify Razorpay Payment
-// @route   POST /api/payment/verify
-// @access  Private
+
+
+
 const verifyPayment = async (req, res) => {
     try {
         const {

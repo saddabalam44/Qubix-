@@ -1,6 +1,6 @@
 const Product = require('../models/Product');
 
-// Get all products
+
 exports.getProducts = async (req, res) => {
     try {
         const products = await Product.find().sort({ createdAt: -1 });
@@ -10,7 +10,7 @@ exports.getProducts = async (req, res) => {
     }
 };
 
-// Add a new product
+
 exports.addProduct = async (req, res) => {
     try {
         const productData = { ...req.body };
@@ -28,12 +28,12 @@ exports.addProduct = async (req, res) => {
     }
 };
 
-// Update a product
+
 exports.updateProduct = async (req, res) => {
     try {
         const productData = { ...req.body };
         if (productData.supplierId === '') {
-            productData.supplierId = null; // Use null to clear it
+            productData.supplierId = null;
         }
         if (req.file) {
             productData.image = `/uploads/${req.file.filename}`;
@@ -50,7 +50,7 @@ exports.updateProduct = async (req, res) => {
     }
 };
 
-// Delete a product
+
 exports.deleteProduct = async (req, res) => {
     try {
         const deletedProduct = await Product.findByIdAndDelete(req.params.id);
