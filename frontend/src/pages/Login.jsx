@@ -73,23 +73,9 @@ const Login = ({ role: propRole }) => {
             overflow: 'hidden',
             padding: '20px'
         }}>
-            {/* Decorative Spheres (Matching User Screenshot) */}
-            <div className="animate-float" style={{ position: 'absolute', top: '10%', left: '5%', width: '300px', height: '300px', background: 'linear-gradient(135deg, #00c9b1, #009688)', borderRadius: '50%', opacity: 0.8, filter: 'blur(2px)' }}></div>
-            <div className="animate-float" style={{ position: 'absolute', top: '60%', right: '5%', width: '250px', height: '250px', background: 'linear-gradient(135deg, #00c9b1, #00bfa5)', borderRadius: '50%', opacity: 0.7, filter: 'blur(1px)', animationDelay: '1s' }}></div>
-            <div className="animate-float" style={{ position: 'absolute', bottom: '-10%', left: '30%', width: '400px', height: '400px', background: 'linear-gradient(135deg, #00c9b1, #1de9b6)', borderRadius: '50%', opacity: 0.6, animationDelay: '2s' }}></div>
-            <div className="animate-float" style={{ position: 'absolute', top: '5%', right: '25%', width: '180px', height: '180px', background: 'linear-gradient(135deg, #00c9b1, #00b29c)', borderRadius: '50%', opacity: 0.9, animationDelay: '0.5s' }}></div>
-            <div className="animate-float" style={{ position: 'absolute', top: '40%', left: '15%', width: '120px', height: '120px', background: 'linear-gradient(135deg, #00c9b1, #00897b)', borderRadius: '50%', opacity: 0.8, animationDelay: '1.5s' }}></div>
+            <div style={{ position: 'fixed', top: '-100px', left: '-100px', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(0,201,177,0.15) 0%, rgba(0,201,177,0) 70%)', borderRadius: '50%', zIndex: 0 }}></div>
 
-            {/* Login Card */}
-            <div className="glass-card" style={{ 
-                width: '100%', 
-                maxWidth: '450px', 
-                padding: '60px 40px 50px', 
-                position: 'relative', 
-                zIndex: 10,
-                textAlign: 'center'
-            }}>
-                {/* Back Button */}
+            <div className="card" style={{ width: '100%', maxWidth: '440px', padding: '48px', position: 'relative', zIndex: 1, backdropFilter: 'blur(10px)', background: 'rgba(255, 255, 255, 0.9)', border: '1px solid rgba(0, 201, 177, 0.2)', boxShadow: '0 25px 50px -12px rgba(0, 201, 177, 0.15)' }}>
                 <Link to="/" style={{ 
                     position: 'absolute', 
                     top: '24px', 

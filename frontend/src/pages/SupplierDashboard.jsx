@@ -100,7 +100,6 @@ const SupplierDashboard = () => {
 
     return (
         <div style={{ animation: 'fadeIn 0.5s ease-out' }}>
-            {/* Header Section */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '40px' }}>
                 <div>
                     <h1 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '8px', letterSpacing: '-0.025em' }}>
@@ -120,8 +119,7 @@ const SupplierDashboard = () => {
                 </div>
             </div>
 
-            {/* Stat Cards */}
-            <div className="grid-cards" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '24px', marginBottom: '40px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px', marginBottom: '40px' }}>
                 <div className="card" style={{ padding: '28px', borderLeft: '4px solid #f59e0b' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                         <div style={{ padding: '12px', borderRadius: '14px', background: '#fffbeb', color: '#b45309' }}>
@@ -179,9 +177,7 @@ const SupplierDashboard = () => {
                 </div>
             </div>
 
-            {/* Content Area */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '32px' }}>
-                {/* Catalog Table */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
                 <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
                     <div style={{ padding: '24px 32px', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '800' }}>Product <span style={{ color: 'var(--primary-color)' }}>Catalog</span></h3>

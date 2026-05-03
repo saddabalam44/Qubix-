@@ -44,7 +44,6 @@ const SupplierRegistration = () => {
             overflow: 'hidden',
             padding: '40px 20px'
         }}>
-            {/* Decorative Spheres (Matching Login Page) */}
             <div className="animate-float" style={{ position: 'absolute', top: '10%', left: '5%', width: '300px', height: '300px', background: 'linear-gradient(135deg, #00c9b1, #009688)', borderRadius: '50%', opacity: 0.8, filter: 'blur(2px)' }}></div>
             <div className="animate-float" style={{ position: 'absolute', top: '60%', right: '5%', width: '250px', height: '250px', background: 'linear-gradient(135deg, #00c9b1, #00bfa5)', borderRadius: '50%', opacity: 0.7, filter: 'blur(1px)', animationDelay: '1s' }}></div>
             <div className="animate-float" style={{ position: 'absolute', bottom: '-10%', left: '30%', width: '400px', height: '400px', background: 'linear-gradient(135deg, #00c9b1, #1de9b6)', borderRadius: '50%', opacity: 0.6, animationDelay: '2s' }}></div>

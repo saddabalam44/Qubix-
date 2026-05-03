@@ -103,7 +103,6 @@ const SalesHistory = () => {
 
     return (
         <div style={{ animation: 'fadeIn 0.5s ease-out' }}>
-            {/* Header Section */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '40px' }}>
                 <div>
                     <h1 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '8px', letterSpacing: '-0.025em' }}>
@@ -127,7 +126,6 @@ const SalesHistory = () => {
                 </div>
             </div>
 
-            {/* Actions & Filters */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
                 <div style={{ position: 'relative', width: '360px' }}>
                     <Search style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} size={18} />

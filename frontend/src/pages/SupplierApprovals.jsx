@@ -45,7 +45,6 @@ const SupplierApprovals = () => {
 
     return (
         <div style={{ animation: 'fadeIn 0.5s ease-out' }}>
-            {/* Header Section */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '40px' }}>
                 <div>
                     <h1 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '8px', letterSpacing: '-0.025em' }}>
@@ -57,7 +56,6 @@ const SupplierApprovals = () => {
                 </div>
             </div>
 
-            {/* Approvals Table Card */}
             <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
                 <div className="table-container" style={{ border: 'none', borderRadius: 0 }}>
                     <table style={{ borderCollapse: 'collapse' }}>

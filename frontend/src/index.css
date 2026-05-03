@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --primary-color: #00c9b1; /* Teal from screenshot */
+  --primary-color: #00c9b1;
   --primary-hover: #00b39d;
   --secondary-color: #0d9488;
-  --bg-light: #f0fdfa; /* Very light teal background */
+  --bg-light: #f0fdfa;
   --text-main: #0f172a;
   --text-muted: #64748b;
   --glass-bg: rgba(255, 255, 255, 0.4);
@@ -28,7 +28,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Glassmorphism Utilities */
+
 .glass-card {
   background: var(--glass-bg);
   backdrop-filter: blur(16px);
@@ -45,7 +45,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-/* Layout Components */
+
 .app-container {
   display: flex;
   min-height: 100vh;

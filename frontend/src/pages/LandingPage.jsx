@@ -58,8 +58,7 @@ const LandingPage = () => {
             flexDirection: 'column',
             overflowX: 'hidden'
         }}>
-            {/* Navigation Header */}
-            <header style={{ 
+            <nav style={{ 
                 height: '80px', 
                 background: 'rgba(255, 255, 255, 0.8)', 
                 backdropFilter: 'blur(12px)',
@@ -100,10 +99,10 @@ const LandingPage = () => {
                         </>
                     )}
                 </div>
-            </header>
+            </nav>
 
-            {/* Hero Section */}
-            <main style={{ flex: 1, paddingTop: '140px', paddingBottom: '80px' }}>
+            <header style={{ 
+                flex: 1, paddingTop: '140px', paddingBottom: '80px' }}>
                 <div style={{ textAlign: 'center', maxWidth: '900px', margin: '0 auto', padding: '0 20px' }}>
                     <div style={{ 
                         display: 'inline-flex', 
@@ -127,13 +126,7 @@ const LandingPage = () => {
                         Experience the next generation of Advance Billing and Inventory Management. A unified ecosystem designed for administrators, retail associates, and merchant partners.
                     </p>
 
-                    {/* Role Cards Grid */}
-                    <div style={{ 
-                        display: 'grid', 
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-                        gap: '32px',
-                        marginTop: '64px'
-                    }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px' }}>
                         {portals.map((portal, idx) => (
                             <div 
                                 key={idx} 

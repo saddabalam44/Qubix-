@@ -109,7 +109,7 @@ const Dashboard = () => {
 
     return (
         <div style={{ animation: 'fadeIn 0.5s ease-out' }}>
-            {/* Header Section */}
+
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '40px' }}>
                 <div>
                     <h1 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '8px', letterSpacing: '-0.025em' }}>
@@ -133,9 +133,7 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            {/* Stat Cards Grid */}
-            <div className="grid-cards" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '24px', marginBottom: '40px' }}>
-                {/* Card 1: Main Metric */}
+            <div className="grid-cards" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', marginBottom: '40px' }}>
                 <div className="card" style={{ padding: '28px', background: 'linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                         <div style={{ padding: '12px', borderRadius: '14px', background: '#ccfbf1', color: '#0d9488' }}>
@@ -152,7 +150,6 @@ const Dashboard = () => {
                         ₹{(isAdmin ? totalRevenue : revenueToday).toLocaleString()}
                     </h2>
                 </div>
-                {/* Card 2: Inventory/Volume */}
                 <div className="card" style={{ padding: '28px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                         <div style={{ padding: '12px', borderRadius: '14px', background: '#f0fdfa', color: 'var(--primary-color)' }}>
@@ -170,7 +167,6 @@ const Dashboard = () => {
                     </h2>
                 </div>
  
-                {/* Card 3: Performance/Procurement */}
                 <div className="card" style={{ padding: '28px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                         <div style={{ padding: '12px', borderRadius: '14px', background: '#e0f2f1', color: '#00897b' }}>
@@ -185,7 +181,6 @@ const Dashboard = () => {
                     </h2>
                 </div>
 
-                {/* Card 4: Health/Alerts */}
                 <div className="card" style={{ padding: '28px', border: lowStockProducts.length > 0 ? '1px solid #fecaca' : '1px solid var(--border-color)', background: lowStockProducts.length > 0 ? '#fffafa' : '#fff' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                         <div style={{ padding: '12px', borderRadius: '14px', background: lowStockProducts.length > 0 ? '#fee2e2' : '#f8fafc', color: lowStockProducts.length > 0 ? '#dc2626' : '#94a3b8' }}>
@@ -201,9 +196,7 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            {/* Main Content Area */}
-            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1.2fr', gap: '32px' }}>
-                {/* Left Column: Activity */}
+            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '32px' }}>
                 <div className="card" style={{ padding: 0, overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
                     <div style={{ padding: '24px 32px', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fff' }}>
                         <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '800' }}>Operational Stream</h3>
