@@ -101,7 +101,7 @@ const LandingPage = () => {
                 </div>
             </nav>
 
-            <header style={{ 
+            <main style={{ 
                 flex: 1, paddingTop: '140px', paddingBottom: '80px' }}>
                 <div style={{ textAlign: 'center', maxWidth: '900px', margin: '0 auto', padding: '0 20px' }}>
                     <div style={{ 
