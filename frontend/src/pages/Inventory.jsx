@@ -23,6 +23,8 @@ const Inventory = () => {
     const currentUser = JSON.parse(sessionStorage.getItem('user') || '{}');
     const isAdmin = currentUser.role === 'admin';
 
+    // Fetch products and active purchase orders
+
     const fetchProducts = async () => {
         try {
             const token = sessionStorage.getItem('token');
@@ -57,6 +59,8 @@ const Inventory = () => {
         fetchProducts();
         fetchSuppliers();
     }, []);
+
+    // Form handlers
 
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -311,7 +315,7 @@ const Inventory = () => {
                                                 overflow: 'hidden'
                                             }}>
                                                 {p.image ? (
-                                                    <img src={`http://localhost:5000${p.image}`} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '4px' }} />
+                                                    <img src={`${import.meta.env.VITE_API_URL || ''}${p.image}`} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '4px' }} />
                                                 ) : (
                                                     <ImageIcon size={24} style={{ color: '#cbd5e1' }} />
                                                 )}

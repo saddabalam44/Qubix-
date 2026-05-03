@@ -12,6 +12,7 @@ const generateToken = (id) => {
 
 
 
+// Create new shopkeeper or admin account
 const registerUser = async (req, res) => {
     try {
         const { username, email, password, role } = req.body;
@@ -59,6 +60,7 @@ const registerUser = async (req, res) => {
 };
 
 
+// Register supplier with pending status
 const registerSupplier = async (req, res) => {
     try {
         const { username, email, companyName } = req.body;
@@ -76,7 +78,7 @@ const registerSupplier = async (req, res) => {
         const user = await User.create({
             username,
             email,
-            password: `PENDING_${Date.now()}`, 
+            password: `PENDING_${Date.now()}`,
             role: 'supplier',
             companyName: companyName || '',
             status: 'pending'
@@ -94,6 +96,7 @@ const registerSupplier = async (req, res) => {
 
 
 
+// Verify user and return JWT token
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -123,6 +126,7 @@ const loginUser = async (req, res) => {
 };
 
 
+// Admin adds a shopkeeper and sends welcome email
 const addShopkeeper = async (req, res) => {
     try {
         const { username, email, password } = req.body;
@@ -151,7 +155,7 @@ const addShopkeeper = async (req, res) => {
             from: process.env.EMAIL_USER,
             to: user.email,
             subject: 'Welcome to Qubix - Your Shopkeeper Account',
-            text: `Hello ${username},\n\nAn admin has created a shopkeeper account for you.\n\nHere are your login credentials:\nEmail: ${email}\nPassword: ${password}\n\nPlease login at http://localhost:5173/login\n\nRegards,\nQubix Team`
+            text: `Hello ${username},\n\nAn admin has created a shopkeeper account for you.\n\nHere are your login credentials:\nEmail: ${email}\nPassword: ${password}\n\nPlease login at ${process.env.FRONTEND_URL || 'http://localhost:5173'}/login\n\nRegards,\nQubix Team`
         };
 
         try {
@@ -174,6 +178,7 @@ const addShopkeeper = async (req, res) => {
 };
 
 
+// Admin adds a supplier manually
 const addSupplier = async (req, res) => {
     try {
         const { username, email, password, companyName } = req.body;
@@ -204,7 +209,7 @@ const addSupplier = async (req, res) => {
             from: process.env.EMAIL_USER,
             to: user.email,
             subject: 'Welcome to Qubix - Your Supplier Account',
-            text: `Hello ${username},\n\nAn admin has created a supplier account for you.\n\nHere are your login credentials:\nEmail: ${email}\nPassword: ${password}\n\nPlease login at http://localhost:5173/login\n\nRegards,\nQubix Team`
+            text: `Hello ${username},\n\nAn admin has created a supplier account for you.\n\nHere are your login credentials:\nEmail: ${email}\nPassword: ${password}\n\nPlease login at ${process.env.FRONTEND_URL || 'http://localhost:5173'}/login\n\nRegards,\nQubix Team`
         };
 
         try {
@@ -233,7 +238,7 @@ const getUsers = async (req, res) => {
         let query = {};
         if (role) query.role = role;
         if (status) query.status = status;
-        
+
         const users = await User.find(query).select('-password');
         res.json(users);
     } catch (error) {
@@ -273,9 +278,9 @@ const approveSupplier = async (req, res) => {
         if (!user) return res.status(404).json({ message: 'User not found' });
 
         const generatedPassword = `QUBIX_${Math.floor(1000 + Math.random() * 9000)}`;
-        
+
         user.status = 'active';
-        user.password = generatedPassword; 
+        user.password = generatedPassword;
         await user.save();
 
 
@@ -292,7 +297,7 @@ const approveSupplier = async (req, res) => {
             from: process.env.EMAIL_USER,
             to: user.email,
             subject: 'Your Qubix Supplier Account is Approved!',
-            text: `Hello ${user.username},\n\nYour supplier account has been approved by the Admin.\n\nHere are your login credentials:\nEmail: ${user.email}\nPassword: ${generatedPassword}\n\nPlease log in and change your password as soon as possible.\n\nRegards,\nQubix Team`
+            text: `Hello ${user.username},\n\nYour supplier account has been approved by the Admin.\n\nHere are your login credentials:\nEmail: ${user.email}\nPassword: ${generatedPassword}\n\nPlease log in at ${process.env.FRONTEND_URL || 'http://localhost:5173'}/login and change your password as soon as possible.\n\nRegards,\nQubix Team`
         };
 
         try {
@@ -303,8 +308,8 @@ const approveSupplier = async (req, res) => {
 
         }
 
-        res.json({ 
-            message: 'Supplier approved successfully! An email has been sent to them.', 
+        res.json({
+            message: 'Supplier approved successfully! An email has been sent to them.',
             sharedPassword: generatedPassword,
             email: user.email
         });

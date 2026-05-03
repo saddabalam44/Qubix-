@@ -4,6 +4,7 @@ const Notification = require('../models/Notification');
 
 
 
+// Admin creates a replenishment demand for a product
 const createDemand = async (req, res) => {
     try {
         const { productId, quantity } = req.body;
@@ -47,6 +48,7 @@ const createDemand = async (req, res) => {
 
 
 
+// Supplier approves demand and requests advance payment
 const approveDemand = async (req, res) => {
     try {
         const order = await PurchaseOrder.findById(req.params.id);
@@ -77,6 +79,7 @@ const approveDemand = async (req, res) => {
 
 
 
+// Handle 30/40/30 staged payments (Advance, Delivery, Final)
 const processStagedPayment = async (req, res) => {
     try {
         const { orderId, razorpayPaymentId, isCash } = req.body;
@@ -134,6 +137,7 @@ const processStagedPayment = async (req, res) => {
 
 
 
+// Update order status and auto-increment stock on delivery
 const updateDeliveryStatus = async (req, res) => {
     try {
         const { status } = req.body;

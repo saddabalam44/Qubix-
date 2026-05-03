@@ -209,7 +209,7 @@ const SupplierDashboard = () => {
                                         <td style={{ paddingLeft: '32px', paddingBlock: '16px' }}>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                                 <div style={{ width: '44px', height: '44px', borderRadius: '10px', background: '#f1f5f9', overflow: 'hidden' }}>
-                                                    {p.image ? <img src={`http://localhost:5000${p.image}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Package size={20} style={{ margin: '12px', color: '#94a3b8' }} />}
+                                                    {p.image ? <img src={`${import.meta.env.VITE_API_URL || ''}${p.image}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Package size={20} style={{ margin: '12px', color: '#94a3b8' }} />}
                                                 </div>
                                                 <span style={{ fontWeight: '700', color: '#1e293b' }}>{p.name}</span>
                                             </div>

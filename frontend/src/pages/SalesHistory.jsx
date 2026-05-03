@@ -77,6 +77,8 @@ const SalesHistory = () => {
 
     const totalRevenue = sales.reduce((sum, s) => sum + s.totalPrice, 0);
     
+    // Filtering logic for search and date ranges
+    
     const filteredSales = sales.filter(s => {
         const matchesSearch = (s.customerName || 'Walk-in').toLowerCase().includes(searchTerm.toLowerCase()) ||
                              s._id.toLowerCase().includes(searchTerm.toLowerCase());

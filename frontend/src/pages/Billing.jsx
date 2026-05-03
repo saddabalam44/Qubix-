@@ -12,6 +12,8 @@ const Billing = () => {
     const [paymentSuccess, setPaymentSuccess] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
 
+    // Initial load: Fetch available stock
+
     useEffect(() => {
         fetchProducts();
     }, []);
@@ -73,6 +75,8 @@ const Billing = () => {
     const subTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const taxAmount = subTotal * 0.18;
     const grandTotal = subTotal + taxAmount;
+
+    // Checkout handlers
 
     const handleGenerateBill = () => {
         if (cart.length === 0) return;
@@ -195,6 +199,8 @@ const Billing = () => {
 
     if (loading) return <div>Loading...</div>;
 
+    // Billing Interface
+
     return (
         <div style={{ display: 'flex', gap: '32px', height: 'calc(100vh - 64px)' }}>
             <div style={{ flex: '2', display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
@@ -237,7 +243,7 @@ const Billing = () => {
                             }}>
                                 {p.image ? (
                                     <img 
-                                        src={`http://localhost:5000${p.image}`} 
+                                        src={`${import.meta.env.VITE_API_URL || ''}${p.image}`} 
                                         alt={p.name} 
                                         style={{ width: '100%', height: '100%', objectFit: 'contain', filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.05))' }} 
                                     />

@@ -22,7 +22,7 @@ const Dashboard = () => {
                 ]);
                 setProducts(Array.isArray(productsRes.data) ? productsRes.data : []);
                 setSales(Array.isArray(salesRes.data) ? salesRes.data : []);
-                
+
                 if (user?.role === 'admin') {
                     const purchasesRes = await axios.get('/api/supplier/admin/orders', {
                         headers: { Authorization: `Bearer ${token}` }
@@ -41,15 +41,15 @@ const Dashboard = () => {
     const isAdmin = user?.role === 'admin';
     const totalProducts = products.length;
     const today = new Date().toDateString();
-    
+
 
     const relevantSales = sales; // Backend already filters this for non-admins
     const salesToday = relevantSales.filter(s => new Date(s.date).toDateString() === today);
     const revenueToday = salesToday.reduce((sum, sale) => sum + sale.totalPrice, 0);
     const totalRevenue = relevantSales.reduce((sum, sale) => sum + sale.totalPrice, 0);
-    
 
-    const itemsSoldToday = salesToday.reduce((sum, sale) => 
+
+    const itemsSoldToday = salesToday.reduce((sum, sale) =>
         sum + sale.items.reduce((itemSum, item) => itemSum + item.quantity, 0), 0
     );
     const avgOrderValue = salesToday.length > 0 ? (revenueToday / salesToday.length) : 0;
@@ -110,6 +110,7 @@ const Dashboard = () => {
     return (
         <div style={{ animation: 'fadeIn 0.5s ease-out' }}>
 
+            {/* Page Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '40px' }}>
                 <div>
                     <h1 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '8px', letterSpacing: '-0.025em' }}>
@@ -133,6 +134,7 @@ const Dashboard = () => {
                 </div>
             </div>
 
+            {/* Top Stat Cards */}
             <div className="grid-cards" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', marginBottom: '40px' }}>
                 <div className="card" style={{ padding: '28px', background: 'linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
@@ -166,7 +168,7 @@ const Dashboard = () => {
                         {isAdmin ? products.reduce((acc, p) => acc + (p.stock || 0), 0) : itemsSoldToday}
                     </h2>
                 </div>
- 
+
                 <div className="card" style={{ padding: '28px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                         <div style={{ padding: '12px', borderRadius: '14px', background: '#e0f2f1', color: '#00897b' }}>
@@ -196,6 +198,7 @@ const Dashboard = () => {
                 </div>
             </div>
 
+            {/* Activity and Analytics Sections */}
             <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '32px' }}>
                 <div className="card" style={{ padding: 0, overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
                     <div style={{ padding: '24px 32px', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fff' }}>
@@ -258,10 +261,10 @@ const Dashboard = () => {
                                             <span style={{ fontWeight: '700' }}>{item.quantity} Sold</span>
                                         </div>
                                         <div style={{ height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '10px' }}>
-                                            <div style={{ 
-                                                height: '100%', 
-                                                width: `${percentage}%`, 
-                                                background: idx === 0 ? 'var(--primary-color)' : (idx === 1 ? '#0d9488' : '#0f766e'), 
+                                            <div style={{
+                                                height: '100%',
+                                                width: `${percentage}%`,
+                                                background: idx === 0 ? 'var(--primary-color)' : (idx === 1 ? '#0d9488' : '#0f766e'),
                                                 borderRadius: '10px',
                                                 transition: 'width 1s ease-out'
                                             }}></div>
