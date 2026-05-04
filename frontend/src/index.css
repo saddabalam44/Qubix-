@@ -61,6 +61,24 @@ body {
   position: fixed;
   height: 100vh;
   z-index: 100;
+  overflow-y: auto;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
 }
 
 
