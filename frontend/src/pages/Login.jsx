@@ -159,9 +159,15 @@ const Login = ({ role: propRole }) => {
                         </div>
                     </div>
 
-                    <div style={{ textAlign: 'right', marginBottom: '32px' }}>
-                        <a href="#" style={{ color: '#64748b', fontSize: '0.875rem', fontWeight: 600, textDecoration: 'none' }}>Forgot password?</a>
-                    </div>
+                    {selectedRole !== 'admin' && (
+                        <div style={{ textAlign: 'right', marginBottom: '32px' }}>
+                            {(selectedRole === 'shopkeeper' || selectedRole === 'supplier') ? (
+                                <span style={{ color: '#64748b', fontSize: '0.875rem', fontWeight: 600 }}>Please contact to admin</span>
+                            ) : (
+                                <a href="#" style={{ color: '#64748b', fontSize: '0.875rem', fontWeight: 600, textDecoration: 'none' }}>Forgot password?</a>
+                            )}
+                        </div>
+                    )}
 
                     <button 
                         type="submit" 
