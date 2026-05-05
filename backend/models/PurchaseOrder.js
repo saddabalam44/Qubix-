@@ -73,6 +73,10 @@ const purchaseOrderSchema = new mongoose.Schema({
         enum: ['Demand', 'Awaiting Advance', 'Processing', 'In Transit', 'Delivered', 'Partially Paid', 'Completed', 'Cancelled'],
         default: 'Demand'
     },
+    stockUpdated: {
+        type: Boolean,
+        default: false
+    },
     date: {
         type: Date,
         default: Date.now

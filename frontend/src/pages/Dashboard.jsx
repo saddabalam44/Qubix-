@@ -16,17 +16,19 @@ const Dashboard = () => {
         const fetchData = async () => {
             try {
                 const token = sessionStorage.getItem('token');
+                const config = {
+                    headers: { Authorization: `Bearer ${token}` }
+                };
+
                 const [productsRes, salesRes] = await Promise.all([
-                    axios.get('/api/products'),
-                    axios.get('/api/sales')
+                    axios.get('/api/products', config),
+                    axios.get('/api/sales', config)
                 ]);
                 setProducts(Array.isArray(productsRes.data) ? productsRes.data : []);
                 setSales(Array.isArray(salesRes.data) ? salesRes.data : []);
 
                 if (user?.role === 'admin') {
-                    const purchasesRes = await axios.get('/api/supplier/admin/orders', {
-                        headers: { Authorization: `Bearer ${token}` }
-                    });
+                    const purchasesRes = await axios.get('/api/supplier/admin/orders', config);
                     setPurchases(Array.isArray(purchasesRes.data) ? purchasesRes.data : []);
                 }
             } catch (err) {

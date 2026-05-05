@@ -102,6 +102,16 @@ const processStagedPayment = async (req, res) => {
             const dueDate = new Date();
             dueDate.setMonth(dueDate.getMonth() + 1);
             order.dueDate = dueDate;
+
+            // Automatically update stock after 40% payment if not already updated
+            if (!order.stockUpdated) {
+                const product = await Product.findById(order.productId);
+                if (product) {
+                    product.stock += order.quantity;
+                    await product.save();
+                    order.stockUpdated = true;
+                }
+            }
         } else if (order.status === 'Partially Paid') {
             amountToPay = order.balanceAmount;
             nextStatus = 'Completed';
@@ -124,12 +134,12 @@ const processStagedPayment = async (req, res) => {
             recipient: order.supplierId,
             sender: req.user._id,
             type: 'Payment',
-            message: `Admin has paid ${stageName} (₹${amountToPay.toLocaleString()}) for order #${order._id.toString().slice(-6).toUpperCase()}. Status: ${nextStatus}.`,
+            message: `Admin has paid ${stageName} (₹${amountToPay.toLocaleString()}) for order #${order._id.toString().slice(-6).toUpperCase()}. Status: ${nextStatus}. ${order.stockUpdated ? 'Inventory updated.' : ''}`,
             relatedId: order._id,
             onModel: 'PurchaseOrder'
         });
 
-        res.json({ message: `${stageName} processed successfully`, order });
+        res.json({ message: `${stageName} processed successfully. ${order.stockUpdated ? 'Stock updated.' : ''}`, order });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -153,17 +163,11 @@ const updateDeliveryStatus = async (req, res) => {
 
 
         if (status === 'Delivered') {
-            const product = await Product.findById(order.productId);
-            if (product) {
-                product.stock += order.quantity;
-                await product.save();
-            }
-
             await Notification.create({
                 recipient: order.adminId,
                 sender: req.user._id,
                 type: 'Alert',
-                message: `Your order for ${order.productName} has been DELIVERED. Inventory updated automatically. Please proceed to pay the next 40%.`,
+                message: `Your order for ${order.productName} has been DELIVERED. Please proceed to pay the next 40% to update your inventory.`,
                 relatedId: order._id,
                 onModel: 'PurchaseOrder'
             });

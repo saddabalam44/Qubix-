@@ -12,7 +12,10 @@ const SalesHistory = () => {
 
     const fetchSales = async () => {
         try {
-            const res = await axios.get('/api/sales');
+            const token = sessionStorage.getItem('token');
+            const res = await axios.get('/api/sales', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
             setSales(Array.isArray(res.data) ? res.data : []);
         } catch (err) {
             console.error("Error fetching sales history:", err);

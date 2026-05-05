@@ -28,7 +28,9 @@ const Inventory = () => {
     const fetchProducts = async () => {
         try {
             const token = sessionStorage.getItem('token');
-            const res = await axios.get('/api/products');
+            const res = await axios.get('/api/products', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
             setProducts(Array.isArray(res.data) ? res.data : []);
 
             if (isAdmin) {

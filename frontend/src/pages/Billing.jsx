@@ -20,7 +20,10 @@ const Billing = () => {
 
     const fetchProducts = async () => {
         try {
-            const res = await axios.get('/api/products');
+            const token = sessionStorage.getItem('token');
+            const res = await axios.get('/api/products', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
             const data = Array.isArray(res.data) ? res.data : [];
             setProducts(data.filter(p => p.stock > 0));
         } catch (err) {
