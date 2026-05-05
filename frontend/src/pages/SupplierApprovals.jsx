@@ -41,17 +41,17 @@ const SupplierApprovals = () => {
         }
     };
 
-    if (loading) return <div style={{ padding: '40px', textAlign: 'center', color: '#64748b' }}>Vetting merchant applications...</div>;
+    if (loading) return <div style={{ padding: '40px', textAlign: 'center', color: '#64748b' }}>Loading requests...</div>;
 
     return (
         <div style={{ animation: 'fadeIn 0.5s ease-out' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '40px' }}>
                 <div>
                     <h1 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '8px', letterSpacing: '-0.025em' }}>
-                        Merchant <span style={{ color: 'var(--primary-color)' }}>Vetting</span>
+                        Supplier <span style={{ color: 'var(--primary-color)' }}>Approvals</span>
                     </h1>
                     <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem' }}>
-                        Review and authorize enterprise partner registrations. Credentials will be auto-dispatched upon approval.
+                        Review and approve new supplier partner registrations.
                     </p>
                 </div>
             </div>
@@ -61,10 +61,10 @@ const SupplierApprovals = () => {
                     <table style={{ borderCollapse: 'collapse' }}>
                         <thead>
                             <tr style={{ background: '#fcfdfe' }}>
-                                <th style={{ paddingLeft: '32px' }}>Applicant Details</th>
+                                <th style={{ paddingLeft: '32px' }}>New Supplier</th>
                                 <th>Enterprise / Company</th>
-                                <th>Vetting Status</th>
-                                <th style={{ paddingRight: '32px', textAlign: 'right' }}>Authorization</th>
+                                <th>Status</th>
+                                <th style={{ paddingRight: '32px', textAlign: 'right' }}>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -84,7 +84,7 @@ const SupplierApprovals = () => {
                                     </td>
                                     <td>
                                         <span style={{ background: '#fffbeb', color: '#b45309', padding: '4px 12px', borderRadius: '8px', fontSize: '0.7rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '6px', width: 'fit-content' }}>
-                                            <Clock size={12} /> PENDING REVIEW
+                                            <Clock size={12} /> PENDING
                                         </span>
                                     </td>
                                     <td style={{ paddingRight: '32px', textAlign: 'right' }}>
@@ -93,7 +93,6 @@ const SupplierApprovals = () => {
                                                 className="btn btn-primary" 
                                                 style={{ padding: '8px 16px', borderRadius: '10px', background: '#059669', borderColor: '#059669' }}
                                                 onClick={() => handleStatusUpdate(u._id, 'active')}
-                                                title="Grant Access"
                                             >
                                                 <UserCheck size={18} /> Approve
                                             </button>
@@ -101,7 +100,6 @@ const SupplierApprovals = () => {
                                                 className="btn btn-outline" 
                                                 style={{ padding: '8px 16px', borderRadius: '10px', color: '#ef4444', borderColor: '#fee2e2' }}
                                                 onClick={() => handleStatusUpdate(u._id, 'rejected')}
-                                                title="Deny Access"
                                             >
                                                 <UserX size={18} /> Reject
                                             </button>
@@ -113,7 +111,7 @@ const SupplierApprovals = () => {
                                 <tr>
                                     <td colSpan="4" style={{ textAlign: 'center', padding: '80px', color: '#94a3b8' }}>
                                         <ShieldCheck size={64} style={{ margin: '0 auto 20px', opacity: 0.1 }} />
-                                        <div style={{ fontSize: '1.1rem', fontWeight: '600' }}>Security vault clear. No pending applications.</div>
+                                        <div style={{ fontSize: '1.1rem', fontWeight: '600' }}>No pending requests.</div>
                                     </td>
                                 </tr>
                             )}

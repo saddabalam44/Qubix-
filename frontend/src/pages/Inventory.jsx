@@ -389,7 +389,7 @@ const Inventory = () => {
                                     <span style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: '600' }}>#{order._id.slice(-6).toUpperCase()}</span>
                                 </div>
                                 <h3 style={{ margin: '0 0 4px 0', fontSize: '1.1rem', fontWeight: '800' }}>{order.productName}</h3>
-                                <p style={{ margin: '0 0 16px 0', fontSize: '0.85rem', color: '#64748b' }}>Merchant: {order.supplierId?.companyName || order.supplierId?.username}</p>
+                                <p style={{ margin: '0 0 16px 0', fontSize: '0.85rem', color: '#64748b' }}>Supplier: {order.supplierId?.companyName || order.supplierId?.username}</p>
 
                                 <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '16px', marginBottom: '20px' }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
@@ -475,7 +475,7 @@ const Inventory = () => {
                                     <input type="number" className="form-control" name="lowStockThreshold" value={formData.lowStockThreshold} onChange={handleInputChange} required min="0" style={{ borderRadius: '10px' }} />
                                 </div>
                                 <div>
-                                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '700', fontSize: '0.875rem', color: '#475569' }}>Assign Merchant</label>
+                                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '700', fontSize: '0.875rem', color: '#475569' }}>Assign Supplier</label>
                                     <select className="form-control" name="supplierId" value={formData.supplierId} onChange={handleInputChange} style={{ borderRadius: '10px' }}>
                                         <option value="">Internal Asset</option>
                                         {suppliers.map(s => (

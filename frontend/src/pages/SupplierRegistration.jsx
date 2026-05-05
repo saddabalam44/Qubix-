@@ -59,20 +59,32 @@ const SupplierRegistration = () => {
             }}>
                 <div style={{ marginBottom: '32px' }}>
                     <div style={{ 
-                        width: '70px', 
-                        height: '70px', 
+                        width: '80px', 
+                        height: '80px', 
                         background: 'white', 
-                        borderRadius: '20px', 
+                        borderRadius: '24px', 
                         display: 'flex', 
                         alignItems: 'center', 
                         justifyContent: 'center', 
                         margin: '0 auto 20px',
-                        boxShadow: '0 10px 25px rgba(0, 201, 177, 0.2)'
+                        boxShadow: '0 15px 35px rgba(0, 201, 177, 0.15)',
+                        padding: '10px'
                     }}>
-                        <ShieldCheck size={36} color="#00c9b1" />
+                        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
+                            <path d="M165 145C150 175 100 185 65 170C30 155 15 110 30 75C45 40 90 25 125 40C155 52 170 85 165 115" stroke="#0f172a" strokeWidth="18" strokeLinecap="round"/>
+                            <path d="M150 160L180 190" stroke="#0f172a" strokeWidth="18" strokeLinecap="round"/>
+                            <rect x="60" y="110" width="12" height="35" rx="4" fill="#00c9b1" />
+                            <rect x="85" y="95" width="12" height="50" rx="4" fill="#00c9b1" />
+                            <rect x="110" y="80" width="12" height="65" rx="4" fill="#00c9b1" />
+                            <path d="M50 135L100 85L130 105L180 40" stroke="#00c9b1" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M180 40L155 42M180 40L178 65" stroke="#00c9b1" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round"/>
+                            <circle cx="155" cy="145" r="22" fill="#0f172a" stroke="white" strokeWidth="4"/>
+                            <path d="M145 145C145 139.477 149.477 135 155 135C160.523 135 165 139.477 165 145C165 150.523 160.523 155 155 155" stroke="white" strokeWidth="3" strokeLinecap="round"/>
+                            <path d="M140 145L145 140M140 145L145 150" stroke="white" strokeWidth="3" strokeLinecap="round"/>
+                        </svg>
                     </div>
                     <h1 style={{ margin: 0, fontSize: '2.25rem', color: '#0f172a' }}>
-                        Merchant <span style={{ color: '#00c9b1' }}>Onboarding</span>
+                        Supplier <span style={{ color: '#00c9b1' }}>Onboarding</span>
                     </h1>
                     <p style={{ color: '#64748b', marginTop: '8px', fontSize: '1.1rem', fontWeight: 500 }}>Join the Qubix Enterprise Network</p>
                 </div>

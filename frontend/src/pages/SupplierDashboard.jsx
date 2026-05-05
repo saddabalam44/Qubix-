@@ -96,17 +96,17 @@ const SupplierDashboard = () => {
         p.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    if (loading) return <div style={{ padding: '40px', textAlign: 'center', color: '#64748b' }}>Securing merchant gateway...</div>;
+    if (loading) return <div style={{ padding: '40px', textAlign: 'center', color: '#64748b' }}>Loading dashboard...</div>;
 
     return (
         <div style={{ animation: 'fadeIn 0.5s ease-out' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '40px' }}>
                 <div>
                     <h1 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '8px', letterSpacing: '-0.025em' }}>
-                        Merchant <span style={{ color: 'var(--primary-color)' }}>Portal</span>
+                        Supplier <span style={{ color: 'var(--primary-color)' }}>Portal</span>
                     </h1>
                     <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem' }}>
-                        Manage your enterprise inventory and fulfillment stream. Welcome, {user?.username}.
+                        Manage your products and orders. Welcome back, {user?.username}.
                     </p>
                 </div>
                 <div style={{ display: 'flex', gap: '16px' }}>
@@ -180,7 +180,7 @@ const SupplierDashboard = () => {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
                 <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
                     <div style={{ padding: '24px 32px', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '800' }}>Product <span style={{ color: 'var(--primary-color)' }}>Catalog</span></h3>
+                        <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '800' }}>My <span style={{ color: 'var(--primary-color)' }}>Products</span></h3>
                         <div style={{ position: 'relative', width: '240px' }}>
                             <Search style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} size={16} />
                             <input 
@@ -197,10 +197,10 @@ const SupplierDashboard = () => {
                         <table style={{ borderCollapse: 'collapse' }}>
                             <thead>
                                 <tr style={{ background: '#fcfdfe' }}>
-                                    <th style={{ paddingLeft: '32px' }}>SKU Details</th>
-                                    <th>Unit Cost</th>
-                                    <th>Availability</th>
-                                    <th style={{ paddingRight: '32px', textAlign: 'right' }}>Management</th>
+                                    <th style={{ paddingLeft: '32px' }}>Product Details</th>
+                                    <th>Unit Price</th>
+                                    <th>Stock</th>
+                                    <th style={{ paddingRight: '32px', textAlign: 'right' }}>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -224,12 +224,12 @@ const SupplierDashboard = () => {
                                             <span style={{ 
                                                 fontSize: '0.8rem', 
                                                 fontWeight: '700', 
-                                                color: '#64748b',
-                                                background: '#f1f5f9',
+                                                color: '#059669',
+                                                background: '#ecfdf5',
                                                 padding: '6px 12px',
                                                 borderRadius: '8px'
                                             }}>
-                                                Live Asset
+                                                Active
                                             </span>
                                         </td>
                                     </tr>
@@ -239,14 +239,14 @@ const SupplierDashboard = () => {
                     </div>
                 </div>
 
-                {/* Fulfillment Stream */}
+                {/* Orders Queue */}
                 <div className="card" style={{ padding: '28px' }}>
-                    <h3 style={{ margin: '0 0 24px 0', fontSize: '1.25rem', fontWeight: '800' }}>Fulfillment Queue</h3>
+                    <h3 style={{ margin: '0 0 24px 0', fontSize: '1.25rem', fontWeight: '800' }}>Recent Orders</h3>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                         {orders.length === 0 ? (
                             <div style={{ textAlign: 'center', padding: '40px', color: '#94a3b8' }}>
                                 <Truck size={48} style={{ margin: '0 auto 16px', opacity: 0.1 }} />
-                                <p>No pending fulfillment requests.</p>
+                                <p>No pending orders.</p>
                             </div>
                         ) : (
                             orders.map((order) => (

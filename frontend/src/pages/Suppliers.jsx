@@ -65,17 +65,17 @@ const Suppliers = () => {
         (u.companyName || '').toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    if (loading) return <div style={{ padding: '40px', textAlign: 'center', color: '#64748b' }}>Consulting merchant registry...</div>;
+    if (loading) return <div style={{ padding: '40px', textAlign: 'center', color: '#64748b' }}>Loading suppliers...</div>;
 
     return (
         <div style={{ animation: 'fadeIn 0.5s ease-out' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '40px' }}>
                 <div>
                     <h1 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '8px', letterSpacing: '-0.025em' }}>
-                        Merchant <span style={{ color: 'var(--primary-color)' }}>Network</span>
+                        Supplier <span style={{ color: 'var(--primary-color)' }}>Network</span>
                     </h1>
                     <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem' }}>
-                        Oversee and manage active enterprise partners supplying your catalog.
+                        Manage your active suppliers and partners.
                     </p>
                 </div>
                 <div style={{ display: 'flex', gap: '16px' }}>
@@ -83,7 +83,7 @@ const Suppliers = () => {
                         <Search style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} size={16} />
                         <input 
                             type="text" 
-                            placeholder="Find merchant..." 
+                            placeholder="Search suppliers..." 
                             style={{ width: '100%', padding: '10px 12px 10px 36px', background: 'white', border: '1px solid #e2e8f0', borderRadius: '10px', fontSize: '0.85rem' }}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
@@ -94,7 +94,7 @@ const Suppliers = () => {
                         setError('');
                         setShowModal(true);
                     }}>
-                        <UserPlus size={20} /> Add Merchant
+                        <UserPlus size={20} /> Add Supplier
                     </button>
                 </div>
             </div>
@@ -104,10 +104,10 @@ const Suppliers = () => {
                     <table style={{ borderCollapse: 'collapse' }}>
                         <thead>
                             <tr style={{ background: '#fcfdfe' }}>
-                                <th style={{ paddingLeft: '32px' }}>Merchant Identity</th>
-                                <th>Enterprise / Company</th>
-                                <th>Communication Channel</th>
-                                <th style={{ paddingRight: '32px', textAlign: 'right' }}>Management</th>
+                                <th style={{ paddingLeft: '32px' }}>Supplier Name</th>
+                                <th>Company</th>
+                                <th>Email Address</th>
+                                <th style={{ paddingRight: '32px', textAlign: 'right' }}>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -157,7 +157,7 @@ const Suppliers = () => {
                                             className="btn btn-outline" 
                                             style={{ padding: '8px', borderRadius: '10px', color: '#ef4444', borderColor: '#fee2e2' }}
                                             onClick={() => handleDelete(u._id, u.username)}
-                                            title="Revoke Merchant Access"
+                                            title="Revoke Supplier Access"
                                         >
                                             <Trash2 size={18} />
                                         </button>
@@ -168,7 +168,7 @@ const Suppliers = () => {
                                 <tr>
                                     <td colSpan="4" style={{ textAlign: 'center', padding: '80px', color: '#94a3b8' }}>
                                         <Users size={64} style={{ margin: '0 auto 20px', opacity: 0.1 }} />
-                                        <div style={{ fontSize: '1.1rem', fontWeight: '600' }}>No active merchant partners found.</div>
+                                        <div style={{ fontSize: '1.1rem', fontWeight: '600' }}>No active supplier partners found.</div>
                                     </td>
                                 </tr>
                             )}
@@ -180,7 +180,7 @@ const Suppliers = () => {
             {showModal && (
                 <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(15, 23, 42, 0.5)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
                     <div className="card" style={{ width: '100%', maxWidth: '480px', padding: '40px' }}>
-                        <h2 style={{ marginBottom: '32px' }}>Add New Merchant Partner</h2>
+                        <h2 style={{ marginBottom: '32px' }}>Add New Supplier Partner</h2>
                         {error && (
                             <div style={{ background: '#fef2f2', border: '1px solid #fee2e2', padding: '16px', borderRadius: '12px', marginBottom: '24px', color: '#ef4444', fontSize: '0.9rem' }}>
                                 {error}
@@ -188,7 +188,7 @@ const Suppliers = () => {
                         )}
                         <form onSubmit={handleSubmit}>
                             <div style={{ marginBottom: '20px' }}>
-                                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', fontSize: '0.9rem', color: '#64748b' }}>Merchant Username</label>
+                                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', fontSize: '0.9rem', color: '#64748b' }}>Supplier Username</label>
                                 <input className="form-control" name="username" value={formData.username} onChange={handleInputChange} required autoComplete="off" />
                             </div>
                             <div style={{ marginBottom: '20px' }}>
