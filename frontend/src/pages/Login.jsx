@@ -120,9 +120,6 @@ const Login = ({ role: propRole }) => {
                     <h1 style={{ margin: 0, fontSize: '2.25rem', color: '#0f172a' }}>
                         {selectedRole ? `${selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1)} Login` : 'Sign In'}
                     </h1>
-                    <p style={{ color: '#64748b', marginTop: '8px', fontSize: '1rem', fontWeight: 500 }}>
-                        {selectedRole ? `Access the ${selectedRole} portal` : 'Access your Qubix account'}
-                    </p>
                 </div>
 
                 {error && (
@@ -172,9 +169,11 @@ const Login = ({ role: propRole }) => {
                     </div>
 
                     <div style={{ textAlign: 'right', marginBottom: '32px' }}>
-                        <span style={{ color: '#64748b', fontSize: '0.875rem', fontWeight: 600 }}>
-                            Forgot your password? Please contact to admin
-                        </span>
+                        {selectedRole !== 'admin' && (
+                            <span style={{ color: '#64748b', fontSize: '0.875rem', fontWeight: 600 }}>
+                                Forgot your password? Please contact to admin
+                            </span>
+                        )}
                     </div>
 
                     <button

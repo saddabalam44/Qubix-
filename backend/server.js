@@ -5,9 +5,7 @@ const path = require('path');
 const dns = require('dns');
 require('dotenv').config();
 
-// Custom DNS to resolve MongoDB Atlas SRV issues
-
-// DNS setup for MongoDB Atlas connection
+// Set custom DNS servers to resolve MongoDB Atlas SRV records
 dns.setServers(['8.8.8.8', '1.1.1.1']);
 
 const productRoutes = require('./routes/productRoutes');
@@ -17,8 +15,6 @@ const authRoutes = require('./routes/authRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const supplierRoutes = require('./routes/supplierRoutes');
 const User = require('./models/User');
-
-// Initialize Express App
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -30,10 +26,6 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// API Endpoints
-
-// API Routes
-
 app.use('/api/products', productRoutes);
 app.use('/api/billing', billingRoutes);
 app.use('/api/sales', salesRoutes);
@@ -43,12 +35,9 @@ app.use('/api/supplier', supplierRoutes);
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// MongoDB Connection Setup
 
 
 
-
-// MongoDB Connection logic
 const mongoUri = process.env.MONGO_URI.includes('<db_username>')
   ? 'mongodb://127.0.0.1:27017/qubix'
   : process.env.MONGO_URI;
