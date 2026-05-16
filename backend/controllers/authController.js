@@ -144,7 +144,9 @@ const addShopkeeper = async (req, res) => {
         console.log(`Attempting to send welcome email to ${email}...`);
         const nodemailer = require('nodemailer');
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS
@@ -198,7 +200,9 @@ const addSupplier = async (req, res) => {
         console.log(`Attempting to send welcome email to supplier ${email}...`);
         const nodemailer = require('nodemailer');
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS
@@ -286,7 +290,9 @@ const approveSupplier = async (req, res) => {
 
         const nodemailer = require('nodemailer');
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS
