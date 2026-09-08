@@ -1,61 +1,48 @@
-# Qubix - Advanced Billing System
+# Qubix - An Advance Billing System
 
-Qubix is a full-stack billing and inventory management system designed for retail businesses. It helps manage products, inventory, suppliers, customer billing, payments, and invoices from a single platform.
 
-## Features
+Qubix is a state-of-the-art billing and inventory management solution designed for modern retail environments. It provides a seamless interface for managing products, tracking inventory levels, handling supplier relations, and processing customer transactions with integrated digital payments.
 
-- Product and SKU management
-- Inventory management
-- Low stock alerts
-- Stock replenishment requests
-- Customer billing and digital cart
-- GST calculation
-- Cash and Razorpay payments
-- PDF invoice generation
-- Supplier management
-- Supplier payment tracking
-- Admin, Shopkeeper, and Supplier roles
-- JWT authentication
-- Email notifications
+## 🚀 Key Features
 
-## Tech Stack
+### 📦 Inventory Management
+- **SKU Tracking**: Manage a global catalog of products with detailed SKU records.
+- **Low Stock Alerts**: Real-time monitoring with automated visual cues for low-stock items.
+- **Replenishment Pipeline**: Streamlined workflow to request stock from suppliers when levels are critical.
 
-### Frontend
-- React.js
-- Vite
-- CSS3
-- Lucide React
+### 💳 Advanced Billing System
+- **Digital Cart**: Intuitive cart management for fast checkouts.
+- **Integrated Payments**: Support for Razorpay digital payments and traditional cash transactions.
+- **Automated Tax Calculation**: Built-in GST calculation for accurate billing.
+- **PDF Invoicing**: Instant professional receipt generation for customers.
 
-### Backend
-- Node.js
-- Express.js
-- JWT
-- Nodemailer
+### 🤝 Supplier Ecosystem
+- **Staged Payments**: Professional 30-40-30 payment structure (Advance, Mid-Payment, Final).
+- **Merchant Management**: Add, approve, and manage supplier profiles.
+- **Supply Notifications**: Real-time alerts for demand requests and delivery status updates.
 
-### Database
-- MongoDB
-- Mongoose
+### 🛡️ Security & Roles
+- **Multi-Role Access**: Dedicated dashboards for Admins, Shopkeepers, and Suppliers.
+- **JWT Authentication**: Secure session management using JSON Web Tokens.
+- **Automated Onboarding**: Welcome emails with credentials for new staff and partners.
 
-### Other
-- Razorpay API
-- jsPDF
+## 🛠️ Tech Stack
 
-## Project Structure
+- **Frontend**: React.js, Vite, Lucide-React, CSS3 (Vanilla)
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB (Mongoose)
+- **Email**: Nodemailer (Gmail SMTP)
+- **Payments**: Razorpay API
+- **Documents**: jsPDF
 
-```text
-Qubix/
-├── backend/
-│   ├── controllers/
-│   ├── models/
-│   ├── routes/
-│   ├── middleware/
-│   └── uploads/
-│
-├── frontend/
-│   └── src/
-│       ├── pages/
-│       ├── components/
-│       ├── utils/
-│       └── assets/
-│
-└── README.md
+## ⚙️ Installation
+
+### 1. Prerequisites
+- Node.js (v16+)
+- MongoDB (Local or Atlas)
+- Razorpay API Keys
+
+### 2. Clone the Repository
+```bash
+git clone https://github.com/saddabalam44/Qubix-An-Advance-Billing-System.git
+cd Qubix-An-Advance-Billing-System
